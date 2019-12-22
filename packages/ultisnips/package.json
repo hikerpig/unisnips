@@ -1,0 +1,27 @@
+{
+  "name": "@unisnips/ultisnips",
+  "version": "0.0.1",
+  "description": "Utilities for converting ultisnips in unisnips project",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc --pretty",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@types/lodash.omit": "*",
+    "@unisnips/core": "*",
+    "lodash.omit": "^4.5.0"
+  },
+  "devDependencies": {
+    "typescript": "~3.7.2"
+  },
+  "keywords": [
+    "unisnips"
+  ],
+  "author": "hikperig <hikerpigwinnie@gmail.com>",
+  "license": "MIT"
+}
