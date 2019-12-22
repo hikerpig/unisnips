@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true,
+    "allowJs": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "declaration": true,
+    "downlevelIteration": true,
+    "removeComments": false,
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "exclude": [
+    "**/*.test.ts",
+    "**/test.config.ts",
+    "node_modules",
+    "**/build/*",
+    "**/*.d.ts"
+  ]
+}
