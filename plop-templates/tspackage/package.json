@@ -1,0 +1,36 @@
+{
+  "name": "@unisnips/{{name}}",
+  "version": "0.0.1-alpha.0",
+  "description": "{{description}}",
+  "keywords": [
+    "unisnips"
+  ],
+  "author": "hikperig <hikerpigwinnie@gmail.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "typings": "types/index.d.ts",
+  "files": [
+    "lib",
+    "types"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:hikerpig/unisnips.git"
+  },
+  "scripts": {
+    "build": "tsc --pretty",
+    "dev": "tsc --watch",
+    "gen-types": "npx tsc --declarationDir types --declaration --emitDeclarationOnly true",
+    "lerna:before-release": "gen-types",
+    "test": "jest"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jest": "*"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  }
+}
