@@ -17,6 +17,7 @@
     "lodash.omit": "^4.5.0"
   },
   "devDependencies": {
+    "outdent": "^0.7.0",
     "typescript": "~3.7.2"
   },
   "keywords": [

@@ -183,7 +183,7 @@ function detectPlaceholders(body: string): SnippetPlaceholder[] {
   return result
 }
 
-export function parse(input: string, opts: ParseOptions) {
+export function parse(input: string, opts: ParseOptions = {}) {
   const originSnippets = parseSnippets(input, opts)
   const snippets: SnippetDefinition[] = []
   originSnippets.forEach(ultiSnippet => {
