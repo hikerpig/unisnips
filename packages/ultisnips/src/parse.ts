@@ -136,8 +136,8 @@ function detectPlaceholders(body: string): SnippetPlaceholder[] {
     if (!hasPossibleVariable) break
 
     const nextChar = content[1]
-    const partialData: Pick<SnippetPlaceholder, 'index' | 'description'> = {
-      index: 0,
+    const partialData: Pick<SnippetPlaceholder, 'id' | 'description'> = {
+      id: 0,
       description: '',
     }
     let matchedStr = ''
@@ -148,14 +148,14 @@ function detectPlaceholders(body: string): SnippetPlaceholder[] {
         if (matches) {
           const description = matches[1] || ''
           matchedStr = matches[0]
-          partialData.index = 'VISUAL'
+          partialData.id = 'UNI_VISUAL'
           partialData.description = description
         }
       } else {
         matches = FULL_VARIABLE_RE.exec(content)
         if (matches) {
           matchedStr = matches[0]
-          partialData.index = parseInt(matches[1])
+          partialData.id = parseInt(matches[1])
           partialData.description = matches[2]
         }
       }
@@ -163,7 +163,7 @@ function detectPlaceholders(body: string): SnippetPlaceholder[] {
       matches = SHORT_VARIABLE_RE.exec(content)
       if (matches) {
         matchedStr = matches[0]
-        partialData.index = parseInt(matches[1])
+        partialData.id = parseInt(matches[1])
       }
     }
     if (matchedStr) {

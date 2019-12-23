@@ -1,13 +1,23 @@
 export interface SnippetPlaceholder {
-  index: number | string
+  /**
+   * - can be a number to indicate position,
+   * - or a string for special placeholder name, such as ultisnips' 'VISUAL'
+   */
+  id: number | SpecialHolderName
   /** also default value */
   description?: string
-  /** position in snippet body  */
+  /** position inside snippet body  */
   position: {
     start: number
     end: number
   }
 }
+
+export const UNISNIPS_SPECIAL_HOLDER_NAMES = {
+  UNI_VISUAL: true,
+}
+
+export type SpecialHolderName = keyof typeof UNISNIPS_SPECIAL_HOLDER_NAMES
 
 export interface PlaceholderReplacement {
   placeholder: SnippetPlaceholder

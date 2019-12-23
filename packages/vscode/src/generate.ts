@@ -4,17 +4,20 @@ import {
   SnippetPlaceholder,
   PlaceholderReplacement,
   UnisnipsGenerator,
+  UNISNIPS_SPECIAL_HOLDER_NAMES,
 } from '@unisnips/core'
 
 function makeReplacements(placeholders: SnippetPlaceholder[]): PlaceholderReplacement[] {
   const replacements: PlaceholderReplacement[] = []
   placeholders.forEach(placeholder => {
-    const { index, description } = placeholder
+    const { id, description } = placeholder
     let newDesc: string
-    if (index === 'VISUAL') {
-      newDesc = '$TM_SELECTED_TEXT'
+    if (id in UNISNIPS_SPECIAL_HOLDER_NAMES) {
+      if (id === 'UNI_VISUAL') {
+        newDesc = '$TM_SELECTED_TEXT'
+      }
     } else {
-      newDesc = `$\{${index}${description ? `:${description}` : ''}\}`
+      newDesc = `$\{${id}${description ? `:${description}` : ''}\}`
     }
     const replacement: PlaceholderReplacement = {
       type: 'string',
