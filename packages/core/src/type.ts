@@ -1,11 +1,25 @@
 export interface SnippetPlaceholder {
   /**
-   * - can be a number to indicate position,
-   * - or a string for special placeholder name, such as ultisnips' 'VISUAL'
+   * Indicates placeholder's value type, by default it should be 'positional'.
+   * complicated valueType such as 'script' or 'variable', may be depended on specific interpretor and editor plugin
+   * - positional: can be easily translated, such as vscode's `$1`, will need
+   * - variable: represented a built-in variable,
+   * - : represented a built-in variable,
    */
-  id: number | SpecialHolderName
-  /** also default value */
+  valueType: PlaceholderValueType
+  /** When valueType is 'positional', indicates placeholder's relative position */
+  index?: number
+  /** When valueType is 'positional', this is also default value */
   description?: string
+  /** When valueType is 'variable' */
+  variable?: {
+    type: 'builtin' | 'plain'
+    name: string
+  }
+  /** When valueType is 'script' */
+  scriptInfo?: {
+    scriptType: PlaceholderScriptType
+  }
   /** position inside snippet body  */
   position: {
     start: number
@@ -13,8 +27,12 @@ export interface SnippetPlaceholder {
   }
 }
 
+type PlaceholderValueType = 'positional' | 'variable' | 'script'
+
+type PlaceholderScriptType = 'python' | 'shell' | 'js'
+
 export const UNISNIPS_SPECIAL_HOLDER_NAMES = {
-  UNI_VISUAL: true,
+  UNI_SELECTED_TEXT: true,
 }
 
 export type SpecialHolderName = keyof typeof UNISNIPS_SPECIAL_HOLDER_NAMES

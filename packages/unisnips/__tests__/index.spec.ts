@@ -20,18 +20,18 @@ describe('ultisnipsToVscode', () => {
     `)
   })
 
-  it("combined 'VISUAL' and positional placeholder", () => {
-    const { content } = ultisnipsToVscode(ULTI_SNIPPETS.VISUAL_AND_POSITION)
-    expect(content).toEqual(outdent`
-    {
-      "vue class component @Prop": {
-        "prefix": "vccprop",
-        "body": [
-          "@Prop() $TM_SELECTED_TEXT: \${2:type}"
-        ],
-        "description": "vue class component @Prop"
-      }
-    }
-    `)
-  })
+  // it("combined 'VISUAL' and positional placeholder", () => {
+  //   const { content } = ultisnipsToVscode(ULTI_SNIPPETS.VISUAL_AND_POSITION)
+  //   expect(content).toEqual(outdent`
+  //   {
+  //     "vue class component @Prop": {
+  //       "prefix": "vccprop",
+  //       "body": [
+  //         "@Prop() $TM_SELECTED_TEXT: \${2:type}"
+  //       ],
+  //       "description": "vue class component @Prop"
+  //     }
+  //   }
+  //   `)
+  // })
 })

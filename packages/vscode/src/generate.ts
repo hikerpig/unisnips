@@ -10,14 +10,19 @@ import {
 function makeReplacements(placeholders: SnippetPlaceholder[]): PlaceholderReplacement[] {
   const replacements: PlaceholderReplacement[] = []
   placeholders.forEach(placeholder => {
-    const { id, description } = placeholder
+    const { valueType, variable, description, index } = placeholder
     let newDesc: string
-    if (id in UNISNIPS_SPECIAL_HOLDER_NAMES) {
-      if (id === 'UNI_VISUAL') {
-        newDesc = '$TM_SELECTED_TEXT'
+    if (valueType === 'positional') {
+      newDesc = `$\{${index}${description ? `:${description}` : ''}\}`
+    } else if (valueType === 'variable') {
+      if (variable.type === 'builtin') {
+        newDesc = variable.name
+        if (variable.name === 'UNI_SELECTED_TEXT') {
+          newDesc = '$TM_SELECTED_TEXT'
+        }
       }
-    } else {
-      newDesc = `$\{${id}${description ? `:${description}` : ''}\}`
+    } else if (valueType === 'script') {
+      console.warn('script placeholder is not supported')
     }
     const replacement: PlaceholderReplacement = {
       type: 'string',

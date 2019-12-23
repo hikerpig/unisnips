@@ -136,26 +136,35 @@ function detectPlaceholders(body: string): SnippetPlaceholder[] {
     if (!hasPossibleVariable) break
 
     const nextChar = content[1]
-    const partialData: Pick<SnippetPlaceholder, 'id' | 'description'> = {
-      id: 0,
+    let valueType: SnippetPlaceholder['valueType'] = 'positional'
+    const partialData: Omit<SnippetPlaceholder, 'position' | 'valueType'> = {
+      index: null,
       description: '',
     }
     let matchedStr = ''
 
     if (nextChar === '{') {
+      // TODO: next is digit ?
+      // TODO: detect visual
+      // TODO: tokenizer ?
       if (VISUAL_VARIABLE_RE.test(content)) {
+        // console.log('match visual', content)
         matches = VISUAL_VARIABLE_RE.exec(content)
         if (matches) {
           const description = matches[1] || ''
           matchedStr = matches[0]
-          partialData.id = 'UNI_VISUAL'
+          valueType = 'variable'
+          partialData.variable = {
+            type: 'builtin',
+            name: 'UNI_SELECTED_TEXT',
+          }
           partialData.description = description
         }
       } else {
         matches = FULL_VARIABLE_RE.exec(content)
         if (matches) {
           matchedStr = matches[0]
-          partialData.id = parseInt(matches[1])
+          partialData.index = parseInt(matches[1])
           partialData.description = matches[2]
         }
       }
@@ -163,12 +172,13 @@ function detectPlaceholders(body: string): SnippetPlaceholder[] {
       matches = SHORT_VARIABLE_RE.exec(content)
       if (matches) {
         matchedStr = matches[0]
-        partialData.id = parseInt(matches[1])
+        partialData.index = parseInt(matches[1])
       }
     }
     if (matchedStr) {
       result.push({
         ...partialData,
+        valueType,
         position: {
           start: bodyOffset,
           end: bodyOffset + matchedStr.length,

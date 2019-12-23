@@ -12,12 +12,19 @@ export const ULTI_SNIPPETS = {
   VARIABLE_SIMPLE: getUltisnipsSnippetContent('variables.snippets'),
   VISUAL: outdent`
   snippet test_visual "visual"
-  \${VISUAL:code}
+  \${VISUAL}
   endsnippet
   `,
   VISUAL_AND_POSITION: outdent`
   snippet vccprop "vue class component @Prop"
   @Prop() \${VISUAL}: \${2:type}
+  endsnippet
+  `,
+  VISUAL_INSIDE_PLACEHOLDER: outdent`
+  snippet main "fun main"
+  function main() {
+    \${0:\${VISUAL}}
+  }
   endsnippet
   `,
 }
