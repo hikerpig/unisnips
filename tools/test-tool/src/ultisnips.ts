@@ -15,4 +15,9 @@ export const ULTI_SNIPPETS = {
   \${VISUAL:code}
   endsnippet
   `,
+  VISUAL_AND_POSITION: outdent`
+  snippet vccprop "vue class component @Prop"
+  @Prop() \${VISUAL}: \${2:type}
+  endsnippet
+  `,
 }

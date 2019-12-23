@@ -18,6 +18,7 @@
   },
   "scripts": {
     "test": "jest",
+    "bootstrap": "lerna bootstrap",
     "format": "prettier --write \"**/*.ts\"  \"!**/lib/**\"",
     "lint": "eslint \"packages/**/{src,__tests__}/**/*.ts\" -f eslint-formatter-friendly",
     "build": "lerna exec -- npm run build"

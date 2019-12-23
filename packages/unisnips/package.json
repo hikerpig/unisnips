@@ -1,7 +1,7 @@
 {
-  "name": "@unisnips/{{name}}",
+  "name": "@unisnips/unisnips",
   "version": "0.0.1-alpha.0",
-  "description": "{{description}}",
+  "description": "",
   "keywords": [
     "unisnips"
   ],
@@ -9,6 +9,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "types/index.d.ts",
+  "bin": "bin/unisnips",
   "files": [
     "lib",
     "types"
@@ -25,6 +26,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@unisnips/core": "*",
+    "yargs": "^15.0.2"
   },
   "devDependencies": {
     "jest": "*",
