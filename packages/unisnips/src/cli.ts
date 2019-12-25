@@ -64,7 +64,7 @@ function main() {
   }).content
 
   if (options.output) {
-    fs.writeFileSync(path.join(cwd, options.output), result)
+    fs.writeFileSync(path.resolve(cwd, options.output), result)
   } else {
     console.log(result)
   }
