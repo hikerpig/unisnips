@@ -1,6 +1,6 @@
 {
   "name": "@unisnips/unisnips",
-  "version": "0.0.1-alpha.0",
+  "version": "0.1.0",
   "description": "",
   "keywords": [
     "unisnips"
@@ -23,8 +23,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@unisnips/atom": "^0.0.1-alpha.0",
-    "@unisnips/core": "*",
+    "@unisnips/atom": "^0.1.0",
+    "@unisnips/core": "^0.1.0",
     "yargs": "^15.0.2"
   },
   "devDependencies": {
