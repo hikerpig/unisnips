@@ -1,9 +1,10 @@
 {
   "name": "@unisnips/unisnips",
   "version": "0.1.0",
-  "description": "",
+  "description": "cli of unisnips project, convert ultisnips snippet to vscode/atom and other targets",
   "keywords": [
-    "unisnips"
+    "unisnips",
+    "ultisnips"
   ],
   "author": "hikperig <hikerpigwinnie@gmail.com>",
   "license": "MIT",
@@ -31,7 +32,6 @@
     "jest": "*",
     "typescript": "~3.7.2"
   },
-  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   }

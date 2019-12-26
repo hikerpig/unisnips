@@ -24,5 +24,9 @@
     "unisnips"
   ],
   "author": "hikperig <hikerpigwinnie@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  }
 }
