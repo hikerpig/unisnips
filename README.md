@@ -1,3 +1,59 @@
-# unisnips
+unisnips
+===
 
-Universal snippets, write once, use everywhere.
+**Uni**versal **snip**pet**s**, write once, use everywhere.
+
+:construction: Still **WIP**.
+
+unisnips aims to be the bridge between different editor/plugin/code-exapand-apps. It parses snippet sources (so far only a subset of [UltiSnips](https://github.com/SirVer/ultisnips) is supported) snippets and converts them to different targets.
+
+You can keep only one set of expressive code templates - AKA snippets - and free yourself the chore of rewriting snippets to fit specifications of different platforms.
+
+## Features
+
+### Supported sources
+
+#### UltiSnips
+
+1. Positional placholder
+
+```vim-snippet
+snippet subsec "most common and simple"
+---------------- $1 ----------------------
+----------------end $1 -------------------
+endsnippet
+
+snippet with_default "with default value"
+function ${1:name} {
+  ${2://body}
+}
+endsnippet
+```
+
+2. 'VISUAL' placeholder
+
+```vim-snippet
+snippet ret  "return value"
+ret ${VISUAL}
+endsnippet
+```
+
+### Supported targets
+
+- vscode
+- atom
+
+<!-- ## Usage
+
+### Node cli
+
+```bash
+npm i -g @unisnips/unisnips # install
+
+unisnips --target vscode -i ~/.vim/Ultisnips/typescript.snippets -o ~/vscodesnippets/typescript.json
+``` -->
+
+## Roadmaps
+
+- [ ] Port UltiSnips parser to TypeScript, to fully understand its `.snippets` file.
+- [ ] Add more builtin variables, may be useful in some targets (such as vscode's `$CURRENT_YEAR`).
