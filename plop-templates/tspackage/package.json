@@ -8,10 +8,9 @@
   "author": "hikperig <hikerpigwinnie@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
-  "typings": "types/index.d.ts",
+  "typings": "lib/index.d.ts",
   "files": [
-    "lib",
-    "types"
+    "lib"
   ],
   "repository": {
     "type": "git",
@@ -20,8 +19,6 @@
   "scripts": {
     "build": "tsc --pretty",
     "dev": "tsc --watch",
-    "gen-types": "npx tsc --declarationDir types --declaration --emitDeclarationOnly true",
-    "lerna:before-release": "gen-types",
     "test": "jest"
   },
   "dependencies": {
