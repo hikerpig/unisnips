@@ -1,5 +1,7 @@
 import outdent from 'outdent'
 
+import { GenerateResult } from '@unisnips/core'
+
 import { ULTI_SNIPPETS } from '../../../tools/test-tool/src/ultisnips'
 
 import { convert } from '../src/index'
@@ -12,8 +14,15 @@ describe('convert to atom', () => {
     })
   }
 
+  const getValuableContent = (result: GenerateResult) => {
+    const lines = result.content.split('\n')
+    lines.pop()
+    lines.shift()
+    return lines.join('\n')
+  }
+
   it('generate right placeholder', () => {
-    const { content } = convertToAtom(ULTI_SNIPPETS.SIMPLE)
+    const content = getValuableContent(convertToAtom(ULTI_SNIPPETS.SIMPLE))
     expect(content).toEqual(outdent`
     seperator:
       prefix: 'subsec'
@@ -25,7 +34,7 @@ describe('convert to atom', () => {
   })
 
   it('variable will be downgraded to positional placeholder', () => {
-    const { content } = convertToAtom(ULTI_SNIPPETS.VISUAL_AND_POSITION)
+    const content = getValuableContent(convertToAtom(ULTI_SNIPPETS.VISUAL_AND_POSITION))
     expect(content).toEqual(outdent`
     'vue class component @Prop':
       prefix: 'vccprop'
