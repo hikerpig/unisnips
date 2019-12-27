@@ -8,6 +8,8 @@ import {
 
 export * from './type'
 
+export * from './util-type'
+
 import { applyReplacements } from './replacement'
 
 export { applyReplacements }

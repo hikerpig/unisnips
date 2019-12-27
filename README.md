@@ -1,7 +1,3 @@
-unisnips
-===
-
-**Uni**versal **snip**pet**s**, write once, use everywhere.
 
 :construction: Still **WIP**.
 
@@ -15,7 +11,7 @@ You can keep only one set of expressive code templates - AKA snippets - and free
 
 #### UltiSnips
 
-1. Positional placholder
+1. Positional placholder (aka 'TabStop' in UltiSnips)
 
 ```vim-snippet
 snippet subsec "most common and simple"
@@ -35,6 +31,18 @@ endsnippet
 ```vim-snippet
 snippet ret  "return value"
 ret ${VISUAL}
+endsnippet
+```
+
+3. script code block
+
+```vim-snippet
+snippet test_shell "shell code"
+should print date: `! date`
+endsnippet
+
+snippet test_js "javascript code"
+should print date: `!js new Date()`
 endsnippet
 ```
 

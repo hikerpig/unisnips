@@ -10,6 +10,7 @@ export const ULTI_SNIPPETS = {
     endsnippet
   `,
   VARIABLE_SIMPLE: getUltisnipsSnippetContent('variables.snippets'),
+  SCRIPTS: getUltisnipsSnippetContent('scripts.snippets'),
   VISUAL: outdent`
   snippet test_visual "visual"
   \${VISUAL}

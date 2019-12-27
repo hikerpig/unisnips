@@ -12,6 +12,7 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
+    "@bestminr/control-flow": "^0.1.0",
     "@types/lodash.omit": "*",
     "@unisnips/core": "^0.1.0",
     "lodash.omit": "^4.5.0"

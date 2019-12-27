@@ -14,11 +14,12 @@ export interface SnippetPlaceholder {
   /** When valueType is 'variable' */
   variable?: {
     type: 'builtin' | 'plain'
-    name: string
+    name: SpecialHolderName | string
   }
   /** When valueType is 'script' */
   scriptInfo?: {
     scriptType: PlaceholderScriptType
+    code: string
   }
   /** position inside snippet body  */
   position: {

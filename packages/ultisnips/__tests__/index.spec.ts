@@ -46,17 +46,47 @@ describe('parse ultisnips', () => {
       })
     })
 
-    it("can extract 'VISUAL' inside another placeholder ", () => {
+    it("can extract 'VISUAL' inside another tabstop ", () => {
       const { definitions } = parse(ULTI_SNIPPETS.VISUAL_INSIDE_PLACEHOLDER)
       const definition = definitions[0]
       // console.log('', definition.placeholders)
       expect(definition.placeholders[0]).toMatchObject<Partial<SnippetPlaceholder>>({
+        valueType: 'positional',
+        index: 0,
+      })
+      expect(definition.placeholders[1]).toMatchObject<Partial<SnippetPlaceholder>>({
         valueType: 'variable',
         variable: {
           type: 'builtin',
           name: 'UNI_SELECTED_TEXT',
         },
       })
+    })
+  })
+
+  describe('scripts', () => {
+    it('can extract script blocks', () => {
+      const { definitions } = parse(ULTI_SNIPPETS.SCRIPTS)
+      const def1 = definitions.find(def => def.trigger === 'snip')
+      expect(def1.placeholders[0].scriptInfo.scriptType).toEqual('python')
+
+      const defJs = definitions.find(def => def.trigger === 'test_js')
+      expect(defJs.placeholders[0]).toMatchObject<PartialPlaceholder>({
+        scriptInfo: {
+          scriptType: 'js',
+          code: 'new Date()',
+        },
+      })
+
+      const defShell = definitions.find(def => def.trigger === 'test_shell')
+      expect(defShell.placeholders[0]).toMatchObject<PartialPlaceholder>({
+        scriptInfo: {
+          scriptType: 'shell',
+          code: 'date',
+        },
+      })
+
+
     })
   })
 })

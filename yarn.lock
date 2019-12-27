@@ -137,6 +137,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@bestminr/control-flow@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@bestminr/control-flow/-/control-flow-0.1.0.tgz#eedf6bf42b62ec25701d8d5fd04439acf59741c5"
+  integrity sha512-fvOrA1RCIWIFPdN+y9gbh71TIP/ib5sGrmMTNqZk6qE6qYLxDdrhj2qhFUAjwxXok/Nnv/vElatvpb8DPocJHg==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"

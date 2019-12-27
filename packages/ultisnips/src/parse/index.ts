@@ -1,7 +1,9 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { SnippetDefinition, ParseOptions, SnippetPlaceholder } from '@unisnips/core'
 import omit from 'lodash.omit'
+import { SnippetDefinition, ParseOptions, SnippetPlaceholder } from '@unisnips/core'
+import { parseUltiSnips } from './ultisnips'
+import { VisualToken, MirrorToken, TabStopToken, ScriptCodeToken } from './tokenizer'
 
 interface UltiSnippet extends SnippetDefinition {
   code: Array<string>
@@ -107,89 +109,47 @@ function parseSnippets(snippetCode: string, opts: ParseOptions): UltiSnippet[] {
  * Detect the placeholders names from a UltiSnips template. The placeholders
  * are surrounded by brackets for easier replacement.
  */
-function detectPlaceholders(body: string): SnippetPlaceholder[] {
+function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
   const result: SnippetPlaceholder[] = []
-  const SHORT_VARIABLE_RE = /\$(\d+)/
-  const FULL_VARIABLE_RE = /\$\{(\d+)\:(.*?)\}/
-  const VISUAL_VARIABLE_RE = /\$\{VISUAL\:?(.*?)\}/
-
-  let bodyOffset = 0
-  let content = body
-  let matches: RegExpExecArray | null
-
-  const contentForword = (offset: number) => {
-    content = content.slice(offset)
-    bodyOffset += offset
-  }
-
-  const moveToNextPossiblePlaceholder = () => {
-    const pos = content.indexOf('$')
-    if (pos > -1) {
-      contentForword(pos)
-      return true
-    }
-    return false
-  }
-
-  do {
-    const hasPossibleVariable = moveToNextPossiblePlaceholder()
-    if (!hasPossibleVariable) break
-
-    const nextChar = content[1]
-    let valueType: SnippetPlaceholder['valueType'] = 'positional'
-    const partialData: Omit<SnippetPlaceholder, 'position' | 'valueType'> = {
-      index: null,
-      description: '',
-    }
-    let matchedStr = ''
-
-    if (nextChar === '{') {
-      // TODO: next is digit ?
-      // TODO: detect visual
-      // TODO: tokenizer ?
-      if (VISUAL_VARIABLE_RE.test(content)) {
-        // console.log('match visual', content)
-        matches = VISUAL_VARIABLE_RE.exec(content)
-        if (matches) {
-          const description = matches[1] || ''
-          matchedStr = matches[0]
-          valueType = 'variable'
-          partialData.variable = {
-            type: 'builtin',
-            name: 'UNI_SELECTED_TEXT',
-          }
-          partialData.description = description
-        }
-      } else {
-        matches = FULL_VARIABLE_RE.exec(content)
-        if (matches) {
-          matchedStr = matches[0]
-          partialData.index = parseInt(matches[1])
-          partialData.description = matches[2]
-        }
-      }
-    } else if (SHORT_VARIABLE_RE.test(content)) {
-      matches = SHORT_VARIABLE_RE.exec(content)
-      if (matches) {
-        matchedStr = matches[0]
-        partialData.index = parseInt(matches[1])
-      }
-    }
-    if (matchedStr) {
-      result.push({
-        ...partialData,
-        valueType,
-        position: {
-          start: bodyOffset,
-          end: bodyOffset + matchedStr.length,
+  const { pairs, seenTabstops } = parseUltiSnips(def)
+  pairs.forEach(({ parent, token }) => {
+    // console.log('token', token)
+    let placeholder: SnippetPlaceholder
+    let partialData: Omit<SnippetPlaceholder, 'position'>
+    if (token instanceof VisualToken) {
+      partialData = {
+        valueType: 'variable',
+        variable: {
+          type: 'builtin',
+          name: 'UNI_SELECTED_TEXT',
         },
-      })
-      contentForword(matchedStr.length)
-    } else {
-      contentForword(1)
+      }
+    } else if (token instanceof MirrorToken || token instanceof TabStopToken) {
+      partialData = {
+        valueType: 'positional',
+        index: token.number,
+        description: token.initialText,
+      }
+    } else if (token instanceof ScriptCodeToken) {
+      partialData = {
+        valueType: 'script',
+        scriptInfo: {
+          scriptType: token.scriptType,
+          code: token.scriptCode,
+        },
+      }
     }
-  } while (true)
-
+    if (partialData) {
+      placeholder = {
+        ...partialData,
+        position: {
+          start: token.start.offset,
+          end: token.end.offset,
+        },
+      }
+      result.push(placeholder)
+    }
+  })
   return result
 }
 
@@ -198,7 +158,7 @@ export function parse(input: string, opts: ParseOptions = {}) {
   const snippets: SnippetDefinition[] = []
   originSnippets.forEach(ultiSnippet => {
     const snippet: SnippetDefinition = omit(ultiSnippet, ['code'])
-    const placeholders = detectPlaceholders(ultiSnippet.body)
+    const placeholders = detectPlaceholders(ultiSnippet)
     placeholders.forEach(placeholder => {
       snippet.placeholders.push(placeholder)
     })
