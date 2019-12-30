@@ -14,6 +14,8 @@ import { applyReplacements } from './replacement'
 
 export { applyReplacements }
 
+export * from './interpreter'
+
 export interface UnisnipsParser {
   parse(content: string, opts?: ParseOptions): ParseResult
 }

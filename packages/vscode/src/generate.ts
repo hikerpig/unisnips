@@ -7,6 +7,18 @@ import {
   applyReplacements,
 } from '@unisnips/core'
 
+/**
+ * Map UniSnips variables to vscode builtin variable
+ */
+const UNI_BUILTIN_VARIABLE_VSCODE_MAP: { [key: string]: string } = {
+  UNI_SELECTED_TEXT: '$TM_SELECTED_TEXT',
+  UNI_FILENAME: '$TM_FILENAME',
+  UNI_FILENAME_BASE: '$TM_FILENAME_BASE',
+  UNI_DIRECTORY: '$TM_DIRECTORYH',
+  UNI_FILEPATH: '$TM_FILEPATH',
+  UNI_CURRENT_YEAR: '$CURRENT_YEAR',
+}
+
 function makeReplacements(placeholders: SnippetPlaceholder[]): PlaceholderReplacement[] {
   const replacements: PlaceholderReplacement[] = []
   placeholders.forEach(placeholder => {
@@ -23,8 +35,8 @@ function makeReplacements(placeholders: SnippetPlaceholder[]): PlaceholderReplac
     } else if (valueType === 'variable') {
       if (variable.type === 'builtin') {
         newDesc = variable.name
-        if (variable.name === 'UNI_SELECTED_TEXT') {
-          newDesc = '$TM_SELECTED_TEXT'
+        if (UNI_BUILTIN_VARIABLE_VSCODE_MAP[variable.name]) {
+          newDesc = UNI_BUILTIN_VARIABLE_VSCODE_MAP[variable.name]
         }
       }
     } else if (valueType === 'script') {

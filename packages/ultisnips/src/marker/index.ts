@@ -7,9 +7,9 @@ import {
   TabStopToken,
   VisualToken,
   ScriptCodeToken,
-  parseTillClosingBrace,
-  parseTillUnescapedChar,
+  UniSnipsVariableToken,
   StopIteration,
+  parseTillUnescapedChar,
 } from '../parse/tokenizer'
 
 export type MarkerClass = new (opts: MarkerInitOpts) => Marker
@@ -244,6 +244,14 @@ export class Mirror extends Marker {
 
   init(opts: MarkerInitOpts) {
     super.init(opts)
+  }
+}
+
+export class UniSnipsVariable extends NoneditableMarker {
+  get name() {
+    if (this.token instanceof UniSnipsVariableToken) {
+      return this.token.name
+    }
   }
 }
 

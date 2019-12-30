@@ -1,6 +1,7 @@
 import PLUGIN_ULTISNIPS from '../src/index'
 
 import { ULTI_SNIPPETS } from '../../../tools/test-tool/src/ultisnips'
+import { UNI_SNIPPETS } from '../../../tools/test-tool/src/unisnips'
 import { SnippetPlaceholder, SnippetDefinition } from '@unisnips/core'
 
 const { parse } = PLUGIN_ULTISNIPS
@@ -135,6 +136,21 @@ describe('transformation', () => {
     expect(def.placeholders[0].transform).toMatchObject({
       replace: 'echo ext:$2',
       search: '(\\w+)([\\w\\d]+)\\.(.*)',
+    })
+  })
+})
+
+describe('parse unisnips builtin variables', () => {
+  it("should extract variable in '$UNI_*' form", () => {
+    const { definitions } = parse(UNI_SNIPPETS.BUILTIN_VAR)
+    const def = definitions[0]
+    expect(def.placeholders[0].variable).toMatchObject<PartialPlaceholder['variable']>({
+      type: 'builtin',
+      name: 'UNI_FILEPATH',
+    })
+    expect(def.placeholders[1].variable).toMatchObject<PartialPlaceholder['variable']>({
+      type: 'builtin',
+      name: 'UNI_SELECTED_TEXT',
     })
   })
 })

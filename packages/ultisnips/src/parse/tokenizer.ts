@@ -137,25 +137,36 @@ export function parseTillClosingBrace(iter: TextIterator) {
  *
  * Will also consume the closing char, but and return it as second return value
  */
-export function parseTillUnescapedChar(iter: TextIterator, str: string) {
+export function parseTillUnescapedChar(iter: TextIterator, str: string, validWhenEndOfText = false) {
   const retChars = []
   let char
-  while (true) {
-    const chars = str.split('')
-    let escaped = false
-    for (const c of chars) {
-      char = c
-      if (EscapeCharToken.startsWithChar(iter, char)) {
-        retChars.push(iter.next(2))
-        escaped = true
+  try {
+    while (true) {
+      const chars = str.split('')
+      let escaped = false
+      for (const c of chars) {
+        char = c
+        if (EscapeCharToken.startsWithChar(iter, char)) {
+          retChars.push(iter.next(2))
+          escaped = true
+        }
+      }
+      if (!escaped) {
+        char = iter.next()
+        if (chars.includes(char)) {
+          break
+        } else {
+        }
+        retChars.push(char)
       }
     }
-    if (!escaped) {
-      char = iter.next()
-      if (chars.includes(char)) {
-        break
+  } catch (error) {
+    if (error instanceof StopIteration) {
+      if (!validWhenEndOfText) {
+        throw error
       }
-      retChars.push(char)
+    } else {
+      throw error
     }
   }
   return [retChars.join(''), char]
@@ -256,15 +267,15 @@ export class VisualToken extends Token {
   // ${VISUAL}
   static PATTERN = /^\$\{VISUAL[:}\/]/
 
+  static startsHere(iter: TextIterator) {
+    return this.PATTERN.test(iter.peek(10))
+  }
+
   isTransformable = true
   alternativeText = ''
   search: string
   replace: string
   options: any = null
-
-  static startsHere(iter: TextIterator) {
-    return this.PATTERN.test(iter.peek(10))
-  }
 
   get tokenType() {
     return 'Visual'
@@ -332,11 +343,11 @@ export class VisualToken extends Token {
 export class MirrorToken extends Token {
   static PATTERN = /^\$\d+/
 
-  number: number
-
   static startsHere(iter: TextIterator) {
     return this.PATTERN.test(iter.peek(10))
   }
+
+  number: number
 
   get tokenType() {
     return 'Mirror'
@@ -353,6 +364,30 @@ export class MirrorToken extends Token {
   protected parse(iter: TextIterator) {
     iter.next() // $
     this.number = parseIndexNumber(iter)
+  }
+}
+
+/**
+ * Represents UniSnips' builtin variable
+ */
+export class UniSnipsVariableToken extends Token {
+  // static VALID_NAME_PATTERN = /[0-9A-Z_]/
+
+  static startsHere(iter: TextIterator) {
+    // $UNI_*
+    return iter.peek(5) === '$UNI_'
+  }
+
+  name: string
+
+  toString() {
+    return `UniSnipsVariableToken(${this.start.toString()},${this.end.toString()},${this.name})`
+  }
+
+  protected parse(iter: TextIterator) {
+    iter.next(5) // $UNI_
+    const [restName] = parseTillUnescapedChar(iter, '$,\n./ ', true)
+    this.name = 'UNI_' + restName
   }
 }
 
@@ -389,12 +424,12 @@ type ScriptType = SnippetPlaceholder['scriptInfo']['scriptType']
  * - `!p snip.rv = "hi"`, python
  */
 export class ScriptCodeToken extends Token {
-  scriptType: ScriptType
-  scriptCode: string
-
   static startsHere(iter: TextIterator) {
     return iter.peek() === '`'
   }
+
+  scriptType: ScriptType
+  scriptCode: string
 
   get tokenType() {
     return 'ScriptCode'
@@ -467,6 +502,7 @@ export function tokenize(
           //   tokens.push(token.transform)
           // }
           break
+        } else {
         }
       }
 

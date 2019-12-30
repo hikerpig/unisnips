@@ -19,16 +19,16 @@ module.exports = {
     'prettier/prettier': 1,
     '@typescript-eslint/indent': 0,
     '@typescript-eslint/member-ordering': [
-      2,
+      1,
       {
         default: [
           'public-static-field',
+          'public-static-method',
           'protected-static-field',
           'private-static-field',
           'public-instance-field',
           'protected-instance-field',
           'private-instance-field',
-          'public-static-method',
           'protected-static-method',
           'private-static-method',
           'public-constructor',

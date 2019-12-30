@@ -11,7 +11,9 @@ import {
   MirrorToken,
   ScriptCodeToken,
   // TransformationToken,
+  UniSnipsVariableToken,
 } from './tokenizer'
+
 import {
   Marker,
   MarkerClass,
@@ -22,6 +24,7 @@ import {
   ScriptCode,
   Transform,
   TransformableMarker,
+  UniSnipsVariable,
 } from '../marker'
 
 type ResultPair = { parent: Marker; token: Token; marker: Marker | TransformableMarker }
@@ -78,18 +81,12 @@ export function tokenizeSnippetText(
 
 const ALLOWED_TOKENS: TokenClass[] = [
   EscapeCharToken,
+  UniSnipsVariableToken,
   VisualToken,
   TabStopToken,
   MirrorToken,
   ScriptCodeToken,
 ]
-
-const TOKEN_MARKER_MAP = new Map()
-TOKEN_MARKER_MAP.set(VisualToken, Visual)
-TOKEN_MARKER_MAP.set(MirrorToken, Mirror)
-TOKEN_MARKER_MAP.set(TabStopToken, TabStop)
-TOKEN_MARKER_MAP.set(ScriptCodeToken, ScriptCode)
-// TOKEN_MARKER_MAP.set(TransformationToken, Transform)
 
 function definitionToSnippetInstance(snip: SnippetDefinition) {
   const { position } = snip
@@ -115,6 +112,20 @@ function definitionToSnippetInstance(snip: SnippetDefinition) {
   })
   return snipInstance
 }
+
+const TOKEN_MARKER_PAIRS: Array<[TokenClass, MarkerClass]> = [
+  [VisualToken, Visual],
+  [MirrorToken, Mirror],
+  [TabStopToken, TabStop],
+  [ScriptCodeToken, ScriptCode],
+  [UniSnipsVariableToken, UniSnipsVariable],
+]
+
+const TOKEN_MARKER_MAP = new Map<TokenClass, MarkerClass>()
+
+TOKEN_MARKER_PAIRS.forEach(([tokenCls, markerCls]) => {
+  TOKEN_MARKER_MAP.set(tokenCls, markerCls)
+})
 
 /**
  * WIP: won't need ultisnips text objects by now

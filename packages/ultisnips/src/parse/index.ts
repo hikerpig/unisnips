@@ -7,7 +7,13 @@ import {
   SnippetPlaceholder,
   PlaceholderTransform,
 } from '@unisnips/core'
-import { VisualToken, MirrorToken, TabStopToken, ScriptCodeToken } from './tokenizer'
+import {
+  VisualToken,
+  MirrorToken,
+  TabStopToken,
+  ScriptCodeToken,
+  UniSnipsVariableToken,
+} from './tokenizer'
 import { Marker, TabStop, SnippetInstance, TransformableMarker } from '../marker'
 import { parseUltiSnipsTokens, parseUltiSnips } from './ultisnips'
 import { TextPosition } from '../util/position'
@@ -210,6 +216,14 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
           code: token.scriptCode,
         },
       }
+    } else if (token instanceof UniSnipsVariableToken) {
+      partialData = {
+        valueType: 'variable',
+        variable: {
+          type: 'builtin',
+          name: token.name,
+        },
+      }
     }
     // else if (token instanceof TransformationToken) {
     //   console.log('trans token', token)
@@ -259,7 +273,6 @@ export function parse(input: string, opts: ParseOptions = {}) {
     placeholders.forEach(placeholder => {
       snippet.placeholders.push(placeholder)
     })
-    // console.log('placeholders', placeholders)
 
     snippets.push(snippet)
   })
