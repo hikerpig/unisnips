@@ -30,7 +30,7 @@ export interface SnippetPlaceholder {
 
 type PlaceholderValueType = 'positional' | 'variable' | 'script'
 
-type PlaceholderScriptType = 'python' | 'shell' | 'js'
+type PlaceholderScriptType = 'python' | 'shell' | 'vim' | 'js'
 
 export const UNISNIPS_SPECIAL_HOLDER_NAMES = {
   UNI_SELECTED_TEXT: true,

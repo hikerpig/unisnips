@@ -285,6 +285,9 @@ export class ScriptCodeToken extends Token {
     } else if (nextChars.substr(0, 3) === '!p ') {
       scriptType = 'python'
       iter.next(3)
+    } else if (nextChars.substr(0, 3) === '!v ') {
+      scriptType = 'vim'
+      iter.next(3)
     } else if (nextChars.substr(0, 4) === '!js ') {
       scriptType = 'js'
       iter.next(4)
