@@ -9,6 +9,7 @@ import {
 import PLUGIN_ULTISNIPS from '@unisnips/ultisnips'
 import PLUGIN_VSCODE from '@unisnips/vscode'
 import PLUGIN_ATOM from '@unisnips/atom'
+import PLUGIN_SUBLIME from '@unisnips/sublime'
 
 const UNISNIPS_SUPPORTED_SOURCES = {
   ultisnips: 'ultisnips',
@@ -17,6 +18,7 @@ const UNISNIPS_SUPPORTED_SOURCES = {
 const UNISNIPS_SUPPORTED_TARGETS = {
   vscode: 'vscode',
   atom: 'atom',
+  sublime: 'sublime',
 }
 
 class PluginManager {
@@ -49,6 +51,7 @@ pluginManager.registerParser(UNISNIPS_SUPPORTED_SOURCES.ultisnips, PLUGIN_ULTISN
 // generators
 pluginManager.registerGenerator(UNISNIPS_SUPPORTED_TARGETS.vscode, PLUGIN_VSCODE)
 pluginManager.registerGenerator(UNISNIPS_SUPPORTED_TARGETS.atom, PLUGIN_ATOM)
+pluginManager.registerGenerator(UNISNIPS_SUPPORTED_TARGETS.sublime, PLUGIN_SUBLIME)
 // ----------------end Register plugins -------------------
 
 type UnisnipsParseOptions = ParseOptions & {

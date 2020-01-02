@@ -1,16 +1,15 @@
 {
-  "name": "@unisnips/unisnips",
-  "version": "0.2.0",
-  "description": "cli of unisnips project, convert ultisnips snippet to vscode/atom and other targets",
+  "name": "@unisnips/sublime",
+  "version": "0.0.1-alpha.0",
+  "description": "Utilities for converting sublime text in unisnips project",
   "keywords": [
     "unisnips",
-    "ultisnips"
+    "sublimetext"
   ],
   "author": "hikperig <hikerpigwinnie@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
-  "bin": "bin/unisnips",
   "files": [
     "lib"
   ],
@@ -24,15 +23,14 @@
     "test": "jest"
   },
   "dependencies": {
-    "@unisnips/atom": "^0.2.0-alpha.0",
     "@unisnips/core": "^0.2.0-alpha.0",
-    "@unisnips/sublime": "^0.0.1-alpha.0",
-    "yargs": "^15.0.2"
+    "xml2json": "^0.12.0"
   },
   "devDependencies": {
     "jest": "*",
     "typescript": "~3.7.2"
   },
+  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   }
