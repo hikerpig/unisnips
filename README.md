@@ -51,15 +51,22 @@ endsnippet
 - vscode
 - atom
 
-<!-- ## Usage
+## Usage
 
 ### Node cli
 
-```bash
-npm i -g @unisnips/unisnips # install
+#### Install
 
-unisnips --target vscode -i ~/.vim/Ultisnips/typescript.snippets -o ~/vscodesnippets/typescript.json
-``` -->
+```bash
+npm i -g @unisnips/unisnips
+# or
+yarn global add @unisnips/unisnips
+```
+#### Example
+
+```bash
+unisnips convert --target vscode -i ~/.vim/Ultisnips/typescript.snippets -o ~/vscodesnippets/typescript.json
+```
 
 ## Roadmaps
 

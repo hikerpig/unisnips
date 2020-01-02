@@ -1,17 +1,8 @@
-import yargs from 'yargs'
 import fs from 'fs'
 import path from 'path'
+import yargs from 'yargs'
 
-import { convert } from './index'
-
-const cwd = process.cwd()
-
-const DEFAULT_OPTIONS = {
-  input: '',
-  output: '',
-  source: '',
-  target: '',
-}
+import CONVERT_MODULE from './commands/convert'
 
 let version: string
 try {
@@ -24,50 +15,10 @@ try {
 
 const argv = yargs
   .version(version)
-  .option('source', {
-    alias: 's',
-    description: "Source type, default is 'ultisnips'",
-  })
-  .option('target', {
-    alias: 't',
-    description: "Target type, default is 'vscode'",
-  })
-  .option('input', {
-    alias: 'i',
-    required: true,
-  })
-  .option('output', {
-    alias: 'o',
-  })
-  .usage('unisnips usage').argv
-
-const options = { ...DEFAULT_OPTIONS }
-
-function main() {
-  Object.keys(DEFAULT_OPTIONS).forEach((k: any) => {
-    if (k in options) {
-      if (argv[k] !== undefined) {
-        ;(options as any)[k] = argv[k] as any
-      }
-    }
-  })
-
-  // console.log('options', options)
-
-  const fileContent = fs.readFileSync(options.input).toString()
-
-  const result = convert({
-    source: options.source,
-    target: options.target,
-    inputContent: fileContent,
-    snippetsFilePath: options.input,
-  }).content
-
-  if (options.output) {
-    fs.writeFileSync(path.resolve(cwd, options.output), result)
-  } else {
-    console.log(result)
-  }
-}
-
-main()
+  .demandCommand()
+  .command(CONVERT_MODULE)
+  .alias('h', 'help')
+  // .usage('🖖 unisnips')
+  .usage('unisnips <command> [options]')
+  // .epilogue('for more information, find our at https://github.com/hikerpig/unisnips')
+  .example('convert', '--target vscode -i ~/.vim/Ultisnips/typescript.snippets').argv
