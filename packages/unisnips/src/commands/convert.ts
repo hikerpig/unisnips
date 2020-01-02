@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import signale from 'signale'
 
 import yargs, { CommandModule } from 'yargs'
 import { convert } from '../services/convert'
@@ -61,7 +62,9 @@ const CONVERT_MODULE: CommandModule<any> = {
     }).content
 
     if (options.output) {
-      fs.writeFileSync(path.resolve(cwd, options.output), result)
+      const outputPath = path.resolve(cwd, options.output)
+      fs.writeFileSync(outputPath, result)
+      signale.success(`Written to: ${outputPath}`)
     } else {
       console.log(result)
     }
