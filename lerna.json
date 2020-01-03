@@ -2,6 +2,12 @@
   "packages": [
     "packages/*"
   ],
+  "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "message": "chore(release): Publish"
+    }
+  },
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true
