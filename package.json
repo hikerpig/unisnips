@@ -11,6 +11,7 @@
     "eslint-formatter-friendly": "^7.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "jest": "^24.9.0",
+    "lerna-changelog": "^1.0.0",
     "plop": "^2.5.3",
     "prettier": "^1.19.1",
     "ts-jest": "^24.1.0",
@@ -28,5 +29,12 @@
   ],
   "dependencies": {
     "lerna": "^3.18.4"
+  },
+  "changelog": {
+    "repo": "hikerpig/unisnips",
+    "labels": {
+      "feature": "New Feature",
+      "bug": "Bug Fix"
+    }
   }
 }
