@@ -39,8 +39,6 @@ function makeReplacements(placeholders: SnippetPlaceholder[]): PlaceholderReplac
   return replacements
 }
 
-
-
 type SublimeSnippetItem = {
   tabTrigger: string
   content: string
