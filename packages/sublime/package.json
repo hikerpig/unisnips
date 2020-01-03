@@ -1,6 +1,6 @@
 {
   "name": "@unisnips/sublime",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Utilities for converting sublime text in unisnips project",
   "keywords": [
     "unisnips",

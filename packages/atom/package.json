@@ -1,6 +1,6 @@
 {
   "name": "@unisnips/atom",
-  "version": "0.2.0-alpha.0",
+  "version": "0.2.0-alpha.1",
   "description": "Utilities for converting Atom in unisnips project",
   "keywords": [
     "unisnips"
