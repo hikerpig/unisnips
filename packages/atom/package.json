@@ -22,11 +22,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@unisnips/core": "^0.2.0-alpha.0",
-    "cson": "^6.9.0"
+    "@unisnips/core": "^0.2.0-alpha.0"
   },
   "devDependencies": {
-    "@types/cson": "^0.0.31",
     "jest": "*",
     "typescript": "~3.7.2"
   },
