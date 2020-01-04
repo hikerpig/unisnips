@@ -12,6 +12,7 @@ describe('parse ultisnips', () => {
   it('extract trigger and description', () => {
     const { definitions } = parse(ULTI_SNIPPETS.SIMPLE, { verbose: true })
     const definition = definitions[0]
+    // console.log(JSON.stringify(definition.placeholders[0].extra))
     expect(definition).toMatchObject<PartialDef>({
       trigger: 'subsec',
       description: 'seperator',

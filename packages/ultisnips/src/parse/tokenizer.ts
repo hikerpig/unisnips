@@ -7,7 +7,7 @@
 
 import { TextPosition } from '../util/position'
 import { ExtensibleError } from '@bestminr/control-flow'
-import { SnippetPlaceholder } from '@unisnips/core'
+import { SnippetPlaceholder, TokenNode } from '@unisnips/core'
 
 class StopIteration extends ExtensibleError {}
 
@@ -155,6 +155,21 @@ export abstract class Token {
   }
 
   protected abstract parse(iter: TextIterator, indent: TextPosition): void
+
+  getTokenNodeData() {
+    return {}
+  }
+
+  toTokenNode(): TokenNode<any> {
+    return {
+      type: this.constructor.name,
+      position: {
+        start: this.start.toUnistPosition(),
+        end: this.start.toUnistPosition(),
+      },
+      data: this.getTokenNodeData(),
+    }
+  }
 }
 
 export class TabStopToken extends Token {
@@ -164,6 +179,10 @@ export class TabStopToken extends Token {
 
   static startsHere(iter: TextIterator) {
     return this.PATTERN.test(iter.peek(10))
+  }
+
+  getTokenNodeData() {
+    return { number: this.number }
   }
 
   protected parse(iter: TextIterator) {
@@ -233,6 +252,10 @@ export class MirrorToken extends Token {
     return `MirrorToken(${this.start.toString()},${this.end.toString()},${this.number})`
   }
 
+  getTokenNodeData() {
+    return { number: this.number }
+  }
+
   protected parse(iter: TextIterator) {
     iter.next() // $
     this.number = parseIndexNumber(iter)
@@ -273,6 +296,13 @@ export class ScriptCodeToken extends Token {
 
   static startsHere(iter: TextIterator) {
     return iter.peek() === '`'
+  }
+
+  getTokenNodeData() {
+    return {
+      scriptType: this.scriptType,
+      scriptCode: this.scriptCode,
+    }
   }
 
   protected parse(iter: TextIterator) {

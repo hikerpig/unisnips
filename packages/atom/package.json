@@ -25,6 +25,7 @@
     "@unisnips/core": "^0.2.0-alpha.0"
   },
   "devDependencies": {
+    "@types/unist": "^2.0.3",
     "jest": "*",
     "typescript": "~3.7.2"
   },

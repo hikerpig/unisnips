@@ -18,4 +18,12 @@ export class TextPosition implements TextPosition {
   toString() {
     return `(${this.line},${this.col},${this.offset})`
   }
+
+  toUnistPosition() {
+    return {
+      line: this.line,
+      column: this.col,
+      offset: this.offset,
+    }
+  }
 }

@@ -1,3 +1,5 @@
+import { Node, Data } from 'unist'
+
 export interface SnippetPlaceholder {
   /**
    * Indicates placeholder's value type, by default it should be 'positional'.
@@ -26,6 +28,7 @@ export interface SnippetPlaceholder {
     start: number
     end: number
   }
+  extra?: any
 }
 
 type PlaceholderValueType = 'positional' | 'variable' | 'script'
@@ -68,4 +71,8 @@ export interface GenerateOptions {
 
 export interface GenerateResult {
   content: string
+}
+
+export interface TokenNode<D extends Data> extends Node {
+  data: D
 }

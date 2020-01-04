@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import omit from 'lodash.omit'
 import { SnippetDefinition, ParseOptions, SnippetPlaceholder } from '@unisnips/core'
-import { parseUltiSnips } from './ultisnips'
+import { parseUltiSnipsTokens } from './ultisnips'
 import { VisualToken, MirrorToken, TabStopToken, ScriptCodeToken } from './tokenizer'
 
 interface UltiSnippet extends SnippetDefinition {
@@ -111,8 +111,8 @@ function parseSnippets(snippetCode: string, opts: ParseOptions): UltiSnippet[] {
  */
 function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
   const result: SnippetPlaceholder[] = []
-  const { pairs, seenTabstops } = parseUltiSnips(def)
-  pairs.forEach(({ parent, token }) => {
+  const tokens = parseUltiSnipsTokens(def)
+  tokens.forEach(token => {
     // console.log('token', token)
     let placeholder: SnippetPlaceholder
     let partialData: Omit<SnippetPlaceholder, 'position'>
@@ -140,11 +140,15 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
       }
     }
     if (partialData) {
+      const tokenNode = token.toTokenNode()
       placeholder = {
         ...partialData,
         position: {
           start: token.start.offset,
           end: token.end.offset,
+        },
+        extra: {
+          token: tokenNode,
         },
       }
       result.push(placeholder)

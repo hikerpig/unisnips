@@ -36,7 +36,7 @@ export function tokenizeSnippetText(
   indent: TextPosition,
   allowedTokensInText: TokenClass[],
   allowedTokensInTabstops: TokenClass[],
-  tokenMarkerMap: Map<TokenClass, MarkerClass>,
+  tokenMarkerMap?: Map<TokenClass, MarkerClass>,
 ) {
   type ResultPair = { parent: Marker; token: Token; marker: Marker }
   const pairs: ResultPair[] = []
@@ -52,7 +52,7 @@ export function tokenizeSnippetText(
         item.marker = ts
         seenTabstops[token.number] = ts
         doParse(ts, token.initialText, allowedTokensInTabstops)
-      } else {
+      } else if (tokenMarkerMap) {
         const ctor = tokenMarkerMap.get(token.constructor as any)
         if (ctor) {
           item.marker = new ctor({ parent, token })
@@ -84,6 +84,9 @@ TOKEN_MARKER_MAP.set(MirrorToken, Mirror)
 TOKEN_MARKER_MAP.set(TabStopToken, TabStop)
 TOKEN_MARKER_MAP.set(ScriptCodeToken, ScriptCode)
 
+/**
+ * WIP: won't need ultisnips text objects by now
+ */
 export function parseUltiSnips(snip: SnippetDefinition) {
   const snipInstance = new SnippetInstance({
     parent: null,
@@ -99,4 +102,22 @@ export function parseUltiSnips(snip: SnippetDefinition) {
   )
 
   return result
+}
+
+export function parseUltiSnipsTokens(snip: SnippetDefinition): Token[] {
+  const snipInstance = new SnippetInstance({
+    parent: null,
+  })
+
+  const result = tokenizeSnippetText(
+    snipInstance,
+    snip.body,
+    new TextPosition(0, 0),
+    ALLOWED_TOKENS,
+    ALLOWED_TOKENS,
+  )
+
+  const tokens = result.pairs.map(item => item.token)
+
+  return tokens
 }
