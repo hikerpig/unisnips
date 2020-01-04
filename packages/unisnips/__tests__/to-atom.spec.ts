@@ -24,11 +24,11 @@ describe('convert to atom', () => {
   it('generate right placeholder', () => {
     const content = getValuableContent(convertToAtom(ULTI_SNIPPETS.SIMPLE))
     expect(content).toEqual(outdent`
-    seperator:
+    'seperator':
       prefix: 'subsec'
       body: '''
-        ---------------- \${1} ----------------------
-        ----------------end \${1} -------------------
+    ---------------- \${1} ----------------------
+    ----------------end \${1} -------------------
       '''
     `)
   })
@@ -38,7 +38,9 @@ describe('convert to atom', () => {
     expect(content).toEqual(outdent`
     'vue class component @Prop':
       prefix: 'vccprop'
-      body: '@Prop() \${3}: \${2:type}'
+      body: '''
+    @Prop() \${3}: \${2:type}
+      '''
     `)
   })
 })

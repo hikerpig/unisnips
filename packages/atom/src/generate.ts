@@ -63,13 +63,11 @@ export const generateSnippets: UnisnipsGenerator['generateSnippets'] = (
   const generatedContent = Object.keys(resultObj)
     .reduce((out, key) => {
       const item = resultObj[key]
-      const content = `
-'${key}':
-  prefix: ${item.prefix}
+      const content = `'${key}':
+  prefix: '${item.prefix}'
   body: '''
 ${item.body}
-  '''
-  `
+  '''`
       out.push(content)
       return out
     }, [])
