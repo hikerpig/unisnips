@@ -1,11 +1,13 @@
+Unisips
+===
 
-:construction: Still **WIP**.
-
-unisnips aims to be the bridge between different editor/plugin/code-exapand-apps. It parses snippet sources (so far only a subset of [UltiSnips](https://github.com/SirVer/ultisnips) is supported) snippets and converts them to different targets.
+Unisnips is a set of tools to parse and generate expandable snippets. It aims to be the bridge between different editor/plugin/code-exapand-apps. It parses snippet sources (so far only a subset of [UltiSnips](https://github.com/SirVer/ultisnips) is supported) snippets and converts them to different targets.
 
 You can keep only one set of expressive code templates - AKA snippets - and free yourself the chore of rewriting snippets to fit specifications of different platforms.
 
-## Features
+[See the demo site](https://unisnips.netlify.com/)
+
+## :sparkles: Features
 
 ### Supported sources
 
