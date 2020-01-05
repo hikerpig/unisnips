@@ -1,7 +1,43 @@
+import outdent from 'outdent'
+
 import PLUGIN_SUBLIME from '../src'
 
-describe('sublime tests', () => {
-  it('setup done', () => {
-    PLUGIN_SUBLIME.generateSnippets([])
+import { GenerateResult } from '@unisnips/core'
+import PLUGIN_ULTISNIPS from '@unisnips/ultisnips/src/index'
+
+import { ULTI_SNIPPETS } from '../../../tools/test-tool/src/ultisnips'
+
+describe('sublime generation tests', () => {
+  const convertToSublime = (inputContent: string) => {
+    const { definitions } = PLUGIN_ULTISNIPS.parse(inputContent)
+    return PLUGIN_SUBLIME.generateSnippets(definitions)
+  }
+
+  it('generate right placeholder', () => {
+    const content = convertToSublime(ULTI_SNIPPETS.VARIABLE_SIMPLE).content
+    expect(content).toEqual(outdent`
+    <snippet>
+      <content><![CDATA[
+    function(\${1:argument}, \${2}}) {
+      \${3:body}
+    }
+      ]]></content>
+      <tabTrigger>afn</tabTrigger>
+      <description>anonymous function</description>
+    </snippet>
+    `)
+  })
+
+  it('variable will be downgraded to positional placeholder', () => {
+    const content = convertToSublime(ULTI_SNIPPETS.VISUAL_AND_POSITION).content
+    expect(content).toEqual(outdent`
+    <snippet>
+      <content><![CDATA[
+    @Prop() \${3}: \${2:type}
+      ]]></content>
+      <tabTrigger>vccprop</tabTrigger>
+      <description>vue class component @Prop</description>
+    </snippet>
+    `)
   })
 })

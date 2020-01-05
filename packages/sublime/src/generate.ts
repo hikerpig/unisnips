@@ -58,15 +58,13 @@ export const generateSnippets: UnisnipsGenerator['generateSnippets'] = (
       content: newBody,
       description: def.description,
     }
-    const str = `
-<snippet>
+    const str = `<snippet>
   <content><![CDATA[
 ${sublimeSnippet.content}
   ]]></content>
   <tabTrigger>${sublimeSnippet.tabTrigger}</tabTrigger>
   <description>${sublimeSnippet.description}</description>
-</snippet>
-    `
+</snippet>`
     results.push(str)
   })
   return {

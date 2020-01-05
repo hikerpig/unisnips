@@ -14,17 +14,9 @@ describe('convert to sublime', () => {
     })
   }
 
-  const getValuableContent = (result: GenerateResult) => {
-    const lines = result.content.split('\n')
-    lines.pop()
-    lines.shift()
-    return lines.join('\n')
-  }
-
   it('generate right placeholder', () => {
-    const content = getValuableContent(convertToSublime(ULTI_SNIPPETS.VARIABLE_SIMPLE))
-    expect(content).toEqual(outdent`
-    <snippet>
+    const content = convertToSublime(ULTI_SNIPPETS.VARIABLE_SIMPLE).content
+    expect(content).toEqual(outdent`<snippet>
       <content><![CDATA[
     function(\${1:argument}, \${2}}) {
       \${3:body}
@@ -32,19 +24,6 @@ describe('convert to sublime', () => {
       ]]></content>
       <tabTrigger>afn</tabTrigger>
       <description>anonymous function</description>
-    </snippet>
-    `)
-  })
-
-  it('variable will be downgraded to positional placeholder', () => {
-    const content = getValuableContent(convertToSublime(ULTI_SNIPPETS.VISUAL_AND_POSITION))
-    expect(content).toEqual(outdent`
-    <snippet>
-      <content><![CDATA[
-    @Prop() \${3}: \${2:type}
-      ]]></content>
-      <tabTrigger>vccprop</tabTrigger>
-      <description>vue class component @Prop</description>
     </snippet>
     `)
   })
