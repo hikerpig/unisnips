@@ -12,6 +12,9 @@
     "build": "tsc --pretty",
     "dev": "tsc --watch"
   },
+  "dependencies": {
+    "@types/unist": "^2.0.3"
+  },
   "devDependencies": {
     "typescript": "~3.7.2"
   },
