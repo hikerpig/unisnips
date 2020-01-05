@@ -1,0 +1,29 @@
+name: Test
+
+on: [push]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn
+    - run: yarn build
+    - run: yarn coverage
+      env:
+        CI: true
+    - uses: codecov/codecov-action@v1
+      with:
+        token: e3ff5efe-858c-48b5-bb17-ff771beb75bd
+        file: ./coverage/lcov.info #optional
+        flags: unittests #optional
