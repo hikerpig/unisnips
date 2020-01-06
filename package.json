@@ -18,6 +18,7 @@
     "typescript": "^3.7.2"
   },
   "scripts": {
+    "dev": "tsc -b -w --pretty packages/*",
     "test": "jest",
     "coverage": "jest --coverage",
     "bootstrap": "lerna bootstrap",
