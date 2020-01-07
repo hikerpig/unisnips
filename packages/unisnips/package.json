@@ -12,7 +12,8 @@
   "typings": "lib/index.d.ts",
   "bin": "bin/unisnips",
   "files": [
-    "lib"
+    "lib",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
