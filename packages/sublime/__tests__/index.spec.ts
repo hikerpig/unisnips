@@ -25,6 +25,13 @@ describe('sublime generation tests', () => {
       <tabTrigger>afn</tabTrigger>
       <description>anonymous function</description>
     </snippet>
+    <snippet>
+      <content><![CDATA[
+    \${1}
+      ]]></content>
+      <tabTrigger>test_visual</tabTrigger>
+      <description>visual</description>
+    </snippet>
     `)
   })
 

@@ -1,6 +1,8 @@
+import { Point } from 'unist'
+
 export interface TextPosition {
   line: number
-  col: number
+  column: number
   offset?: number
 }
 
@@ -9,20 +11,24 @@ export interface TextPosition {
  *   index) and provides methods for moving them around.
  */
 export class TextPosition implements TextPosition {
+  static fromUnistPoint(point: Point) {
+    return new TextPosition(point.line, point.column, point.offset)
+  }
+
   constructor(line: number, col: number, offset?: number) {
     this.line = line
-    this.col = col
+    this.column = col
     this.offset = offset
   }
 
   toString() {
-    return `(${this.line},${this.col},${this.offset})`
+    return `(${this.line},${this.column},${this.offset})`
   }
 
   toUnistPosition() {
     return {
       line: this.line,
-      column: this.col,
+      column: this.column,
       offset: this.offset,
     }
   }

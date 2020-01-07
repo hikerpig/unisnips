@@ -84,18 +84,29 @@ TOKEN_MARKER_MAP.set(MirrorToken, Mirror)
 TOKEN_MARKER_MAP.set(TabStopToken, TabStop)
 TOKEN_MARKER_MAP.set(ScriptCodeToken, ScriptCode)
 
-/**
- * WIP: won't need ultisnips text objects by now
- */
-export function parseUltiSnips(snip: SnippetDefinition) {
+function definitionToSnippetInstance(snip: SnippetDefinition) {
+  const { position } = snip
+  const start = position.start ? TextPosition.fromUnistPoint(position.start) : null
+  const end = position.end ? TextPosition.fromUnistPoint(position.end) : null
   const snipInstance = new SnippetInstance({
     parent: null,
+    start,
+    end,
   })
+  return snipInstance
+}
+
+/**
+ * WIP: won't need ultisnips text objects by now
+ * @private
+ */
+export function parseUltiSnips(snip: SnippetDefinition) {
+  const snipInstance = definitionToSnippetInstance(snip)
 
   const result = tokenizeSnippetText(
     snipInstance,
     snip.body,
-    new TextPosition(0, 0),
+    snipInstance.start,
     ALLOWED_TOKENS,
     ALLOWED_TOKENS,
     TOKEN_MARKER_MAP,
@@ -105,19 +116,18 @@ export function parseUltiSnips(snip: SnippetDefinition) {
 }
 
 export function parseUltiSnipsTokens(snip: SnippetDefinition): Token[] {
-  const snipInstance = new SnippetInstance({
-    parent: null,
-  })
+  const snipInstance = definitionToSnippetInstance(snip)
 
   const result = tokenizeSnippetText(
     snipInstance,
     snip.body,
-    new TextPosition(0, 0),
+    snipInstance.start,
     ALLOWED_TOKENS,
     ALLOWED_TOKENS,
   )
 
   const tokens = result.pairs.map(item => item.token)
+  // console.log('tokens', tokens)
 
   return tokens
 }

@@ -72,6 +72,10 @@ function parseSnippets(snippetCode: string, opts: ParseOptions): UltiSnippet[] {
 
       const m = SNIPPET_HEAD_PATTERN.exec(line)
       if (m) {
+        const start = {
+          line: index,
+          column: 0,
+        }
         currentSnippet = {
           trigger: m[1],
           description: m[2],
@@ -80,6 +84,10 @@ function parseSnippets(snippetCode: string, opts: ParseOptions): UltiSnippet[] {
           placeholders: [],
           priority: currentPriority,
           flags: m[4],
+          position: {
+            start,
+            end: { ...start },
+          },
         }
 
         list.push(currentSnippet)
@@ -93,6 +101,10 @@ function parseSnippets(snippetCode: string, opts: ParseOptions): UltiSnippet[] {
 
     if (state == ReadState.SNIPPET_CONTENT) {
       if (END_SNIPPET_PATTERN.test(line)) {
+        Object.assign(currentSnippet.position.end, {
+          line: index,
+          column: 0,
+        })
         currentSnippet.body = currentSnippet.code.join('\n')
         state = ReadState.BLANK
         return // => done reading snippets
@@ -115,7 +127,7 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
   tokens.forEach(token => {
     // console.log('token', token)
     let placeholder: SnippetPlaceholder
-    let partialData: Omit<SnippetPlaceholder, 'position'>
+    let partialData: Omit<SnippetPlaceholder, 'position' | 'codePosition'>
     if (token instanceof VisualToken) {
       partialData = {
         valueType: 'variable',
@@ -146,6 +158,10 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
         position: {
           start: token.start.offset,
           end: token.end.offset,
+        },
+        codePosition: {
+          start: token.start,
+          end: token.end,
         },
         extra: {
           token: tokenNode,

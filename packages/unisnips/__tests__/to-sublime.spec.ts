@@ -15,15 +15,14 @@ describe('convert to sublime', () => {
   }
 
   it('generate right placeholder', () => {
-    const content = convertToSublime(ULTI_SNIPPETS.VARIABLE_SIMPLE).content
+    const content = convertToSublime(ULTI_SNIPPETS.SIMPLE).content
     expect(content).toEqual(outdent`<snippet>
       <content><![CDATA[
-    function(\${1:argument}, \${2}}) {
-      \${3:body}
-    }
+    ---------------- \${1} ----------------------
+    ----------------end \${1} -------------------
       ]]></content>
-      <tabTrigger>afn</tabTrigger>
-      <description>anonymous function</description>
+      <tabTrigger>subsec</tabTrigger>
+      <description>seperator</description>
     </snippet>
     `)
   })

@@ -27,7 +27,7 @@ class TextIterator {
   constructor(text: string, startPosition: TextPosition) {
     this.text = text
     this.line = startPosition.line
-    this.col = startPosition.col
+    this.col = startPosition.column
     this.startPosition = startPosition
   }
 

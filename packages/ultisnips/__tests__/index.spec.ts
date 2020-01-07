@@ -33,6 +33,7 @@ describe('parse ultisnips', () => {
         index: 2,
         description: '',
       })
+      expect(definitions.length).toEqual(2)
     })
 
     it("can extract 'VISUAL' ", () => {
@@ -86,8 +87,6 @@ describe('parse ultisnips', () => {
           code: 'date',
         },
       })
-
-
     })
   })
 })

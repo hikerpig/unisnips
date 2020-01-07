@@ -1,4 +1,4 @@
-import { Node, Data } from 'unist'
+import { Node, Data, Position } from 'unist'
 
 export interface SnippetPlaceholder {
   /**
@@ -28,6 +28,7 @@ export interface SnippetPlaceholder {
     start: number
     end: number
   }
+  codePosition: Position
   extra?: any
 }
 
@@ -51,6 +52,10 @@ export interface SnippetDefinition {
   trigger: string
   description: string
   body: string
+  /**
+   * position inside source file
+   */
+  position: Position
   placeholders: SnippetPlaceholder[]
   priority?: number
   extra?: any
