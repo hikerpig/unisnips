@@ -156,13 +156,20 @@ export abstract class Token {
 
   protected abstract parse(iter: TextIterator, indent: TextPosition): void
 
+  /**
+   * will be serialized to TokenNode
+   */
+  get tokenType() {
+    return 'Token'
+  }
+
   getTokenNodeData() {
     return {}
   }
 
   toTokenNode(): TokenNode<any> {
     return {
-      type: this.constructor.name,
+      type: this.tokenType,
       position: {
         start: this.start.toUnistPosition(),
         end: this.end.toUnistPosition(),
@@ -183,6 +190,10 @@ export class TabStopToken extends Token {
 
   getTokenNodeData() {
     return { number: this.number }
+  }
+
+  get tokenType() {
+    return 'TabStop'
   }
 
   protected parse(iter: TextIterator) {
@@ -209,6 +220,10 @@ export class VisualToken extends Token {
 
   static startsHere(iter: TextIterator) {
     return this.PATTERN.test(iter.peek(10))
+  }
+
+  get tokenType() {
+    return 'Visual'
   }
 
   toString() {
@@ -248,6 +263,10 @@ export class MirrorToken extends Token {
     return this.PATTERN.test(iter.peek(10))
   }
 
+  get tokenType() {
+    return 'Mirror'
+  }
+
   toString() {
     return `MirrorToken(${this.start.toString()},${this.end.toString()},${this.number})`
   }
@@ -275,6 +294,10 @@ export class EscapeCharToken extends Token {
     return chars.length === 2 && chars[0] === '\\' && validEscapeChars.indexOf(chars[1]) > -1
   }
 
+  get tokenType() {
+    return 'EscapeChar'
+  }
+
   protected parse(iter: TextIterator) {
     iter.next() // \
     this.initialText = iter.next()
@@ -296,6 +319,10 @@ export class ScriptCodeToken extends Token {
 
   static startsHere(iter: TextIterator) {
     return iter.peek() === '`'
+  }
+
+  get tokenType() {
+    return 'ScriptCode'
   }
 
   getTokenNodeData() {
@@ -331,6 +358,10 @@ export class ScriptCodeToken extends Token {
 }
 
 export class EndOfTextToken extends Token {
+  get tokenType() {
+    return 'EndOfText'
+  }
+
   protected parse() {
     // nothing
   }
