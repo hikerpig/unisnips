@@ -4,9 +4,11 @@ Unisips
 ![test](https://img.shields.io/github/workflow/status/hikerpig/unisnips/Test?label=test)
 [![codecov](https://codecov.io/gh/hikerpig/unisnips/branch/master/graph/badge.svg)](https://codecov.io/gh/hikerpig/unisnips)
 
-Unisnips is a set of tools to parse and generate expandable snippets. It aims to be the bridge between different editor/plugin/code-exapand-apps. It parses snippet sources (so far only a subset of [UltiSnips](https://github.com/SirVer/ultisnips) is supported) snippets and converts them to different targets.
+Unisnips is a set of tools to parse and generate expandable snippets, aiming to be the bridge between different editor/plugin/code-exapand-apps. It parses snippet sources (so far only a subset of [UltiSnips](https://github.com/SirVer/ultisnips) is supported) and converts them to different targets.
 
 You can keep only one set of expressive code templates - AKA snippets - and free yourself the chore of rewriting snippets to fit specifications of different platforms.
+
+:construction: Still under active development, feel free to open issues.
 
 [See the demo site](https://unisnips.netlify.com/)
 
