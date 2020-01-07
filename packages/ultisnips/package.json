@@ -1,6 +1,6 @@
 {
   "name": "@unisnips/ultisnips",
-  "version": "0.3.0-alpha.1",
+  "version": "0.4.0-alpha.0",
   "description": "Utilities for converting ultisnips in unisnips project",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
