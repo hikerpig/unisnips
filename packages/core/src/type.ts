@@ -28,6 +28,7 @@ export interface SnippetPlaceholder {
     start: number
     end: number
   }
+  /** A Unist 'Position', position inside snippet body  */
   codePosition: Position
   extra?: any
 }

@@ -165,7 +165,7 @@ export abstract class Token {
       type: this.constructor.name,
       position: {
         start: this.start.toUnistPosition(),
-        end: this.start.toUnistPosition(),
+        end: this.end.toUnistPosition(),
       },
       data: this.getTokenNodeData(),
     }

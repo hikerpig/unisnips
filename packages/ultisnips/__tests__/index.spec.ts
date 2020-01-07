@@ -34,6 +34,7 @@ describe('parse ultisnips', () => {
         description: '',
       })
       expect(definitions.length).toEqual(2)
+      // expect(definitions).toMatchSnapshot()
     })
 
     it("can extract 'VISUAL' ", () => {

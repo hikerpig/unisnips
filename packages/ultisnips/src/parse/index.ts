@@ -4,6 +4,7 @@ import omit from 'lodash.omit'
 import { SnippetDefinition, ParseOptions, SnippetPlaceholder } from '@unisnips/core'
 import { parseUltiSnipsTokens } from './ultisnips'
 import { VisualToken, MirrorToken, TabStopToken, ScriptCodeToken } from './tokenizer'
+import { TextPosition } from '../util/position'
 
 interface UltiSnippet extends SnippetDefinition {
   code: Array<string>
@@ -153,16 +154,18 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
     }
     if (partialData) {
       const tokenNode = token.toTokenNode()
+      const defStartPosition = TextPosition.fromUnistPoint(def.position.start)
+      const codePosition = {
+        start: token.start.delta(defStartPosition),
+        end: token.end.delta(defStartPosition),
+      }
       placeholder = {
         ...partialData,
         position: {
           start: token.start.offset,
           end: token.end.offset,
         },
-        codePosition: {
-          start: token.start,
-          end: token.end,
-        },
+        codePosition,
         extra: {
           token: tokenNode,
         },

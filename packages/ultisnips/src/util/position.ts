@@ -32,4 +32,22 @@ export class TextPosition implements TextPosition {
       offset: this.offset,
     }
   }
+
+  /**
+   * Returns the difference that the cursor must move to come from 'pos' to us
+   */
+  delta(pos: TextPosition) {
+    if (this.line === pos.line) {
+      return new TextPosition(0, this.column - pos.column)
+    }
+    return new TextPosition(this.line - pos.line, this.column)
+  }
+
+  add(pos: TextPosition) {
+    return new TextPosition(this.line + pos.line, this.column + pos.column)
+  }
+
+  substract(pos: TextPosition) {
+    return new TextPosition(this.line - pos.line, this.column - pos.column)
+  }
 }
