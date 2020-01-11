@@ -25,6 +25,10 @@ export class TextPosition implements TextPosition {
     return `(${this.line},${this.column},${this.offset})`
   }
 
+  clone() {
+    return new TextPosition(this.line, this.column, this.offset)
+  }
+
   toUnistPosition() {
     return {
       line: this.line,

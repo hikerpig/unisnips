@@ -2,6 +2,12 @@ import { Node, Data, Position } from 'unist'
 
 export interface SnippetPlaceholder {
   /**
+   * A uniqueId inside SnippetDefinition
+   */
+  id: number | string
+  /** For nested tabstops */
+  parentId?: number | string
+  /**
    * Indicates placeholder's value type, by default it should be 'positional'.
    * complicated valueType such as 'script' or 'variable', may be depended on specific interpretor and editor plugin
    * - positional: can be easily translated, such as vscode's `$1`, will need
@@ -81,4 +87,5 @@ export interface GenerateResult {
 
 export interface TokenNode<D extends Data> extends Node {
   data: D
+  parent?: TokenNode<any>
 }

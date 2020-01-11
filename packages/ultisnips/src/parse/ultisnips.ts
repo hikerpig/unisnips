@@ -21,6 +21,8 @@ import {
   ScriptCode,
 } from '../marker'
 
+type ResultPair = { parent: Marker; token: Token; marker: Marker }
+
 /**
  * Turns 'text' into a stream of tokens and creates the text objects from
  * those tokens that are mentioned in 'tokenMarkerMap' assuming the
@@ -38,7 +40,6 @@ export function tokenizeSnippetText(
   allowedTokensInTabstops: TokenClass[],
   tokenMarkerMap?: Map<TokenClass, MarkerClass>,
 ) {
-  type ResultPair = { parent: Marker; token: Token; marker: Marker }
   const pairs: ResultPair[] = []
   const seenTabstops: any = {}
 
@@ -86,8 +87,21 @@ TOKEN_MARKER_MAP.set(ScriptCodeToken, ScriptCode)
 
 function definitionToSnippetInstance(snip: SnippetDefinition) {
   const { position } = snip
+  // SnippetInstance's start and end should be relative to snip.body,
+  // so we should remove snippet head and end
   const start = position.start ? TextPosition.fromUnistPoint(position.start) : null
+  if (position.start) {
+    start.line += 1
+  }
+
   const end = position.end ? TextPosition.fromUnistPoint(position.end) : null
+  if (position.end) {
+    const bodyContents = snip.body.split('\n')
+    const bodyLastLine = bodyContents[bodyContents.length - 1]
+    end.line -= 1
+    end.column = bodyLastLine.length
+  }
+
   const snipInstance = new SnippetInstance({
     parent: null,
     start,
@@ -125,6 +139,16 @@ export function parseUltiSnipsTokens(snip: SnippetDefinition): Token[] {
     ALLOWED_TOKENS,
     ALLOWED_TOKENS,
   )
+
+  // result.pairs.forEach((pair: ResultPair) => {
+  //   const { token, parent } = pair
+  //   if (token instanceof TabStop) {
+  //     if (token && parent.token) {
+  //       token.parent = parent.token
+  //     }
+  //   }
+  //   // console.log(null, null, parent)
+  // })
 
   const tokens = result.pairs.map(item => item.token)
   // console.log('tokens', tokens)

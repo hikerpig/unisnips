@@ -33,7 +33,6 @@ describe('parse ultisnips', () => {
         index: 2,
         description: '',
       })
-      expect(definitions.length).toEqual(2)
       // expect(definitions).toMatchSnapshot()
     })
 
@@ -64,6 +63,33 @@ describe('parse ultisnips', () => {
           name: 'UNI_SELECTED_TEXT',
         },
       })
+    })
+
+    it('can parse nested tabstop', () => {
+      const { definitions } = parse(ULTI_SNIPPETS.NESTED_TABSTOP)
+      const def = definitions.find(def => def.trigger === 'nested')
+      expect(def.placeholders[0].codePosition).toMatchObject({
+        end: {
+          column: 19,
+          line: 2,
+        },
+        start: {
+          column: 2,
+          line: 2,
+        },
+      })
+      expect(def.placeholders[1].codePosition).toMatchObject({
+        end: {
+          column: 18,
+          line: 2,
+        },
+        start: {
+          column: 6,
+          line: 2,
+        },
+      })
+
+      // expect(def).toMatchSnapshot()
     })
   })
 

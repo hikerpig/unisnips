@@ -2,8 +2,9 @@ import * as fs from 'fs'
 import * as path from 'path'
 import omit from 'lodash.omit'
 import { SnippetDefinition, ParseOptions, SnippetPlaceholder } from '@unisnips/core'
-import { parseUltiSnipsTokens } from './ultisnips'
 import { VisualToken, MirrorToken, TabStopToken, ScriptCodeToken } from './tokenizer'
+import { Marker, TabStop, SnippetInstance } from '../marker'
+import { parseUltiSnipsTokens, parseUltiSnips } from './ultisnips'
 import { TextPosition } from '../util/position'
 
 interface UltiSnippet extends SnippetDefinition {
@@ -118,17 +119,57 @@ function parseSnippets(snippetCode: string, opts: ParseOptions): UltiSnippet[] {
   return list
 }
 
+function calcMarkerPositionInSnippet(def: SnippetDefinition, marker: Marker) {
+  const defStartPosition = TextPosition.fromUnistPoint(def.position.start)
+  // a path from top marker - usually a SnippetInstance - to the one in params
+  const markerPath = []
+  let parentMarker = marker
+  do {
+    if (!(parentMarker instanceof SnippetInstance)) {
+      markerPath.unshift(parentMarker)
+    }
+    const parent = parentMarker.parent
+    parentMarker = parent
+  } while (parentMarker)
+
+  let curMarker = markerPath.shift()
+  let colOffset = 0
+  let lineOffset = 0
+  while (curMarker) {
+    lineOffset = Math.max(lineOffset, curMarker.start.line - defStartPosition.line)
+    if (curMarker.parent && curMarker.parent instanceof TabStop) {
+      colOffset += `\${${curMarker.parent.number.toString()}:`.length
+    } else {
+      colOffset += curMarker.start.column
+    }
+    // console.log('start', JSON.stringify(curMarker.start), 'end', JSON.stringify(curMarker.end))
+    curMarker = markerPath.shift()
+  }
+
+  // console.log('marker path', markerPath.length, 'colDiff', colDiff)
+  const start = defStartPosition.clone()
+  start.column += colOffset
+  start.line += lineOffset
+  const end = new TextPosition(start.line, start.column + (marker.end.column - marker.start.column))
+  return {
+    start,
+    end,
+  }
+}
+
 /**
  * Detect the placeholders names from a UltiSnips template. The placeholders
  * are surrounded by brackets for easier replacement.
  */
 function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
   const result: SnippetPlaceholder[] = []
-  const tokens = parseUltiSnipsTokens(def)
-  tokens.forEach(token => {
+  const markerIdMap = new Map<Marker, any>()
+  const { pairs } = parseUltiSnips(def)
+  pairs.forEach((pair, i) => {
+    const { token, parent, marker } = pair
     // console.log('token', token)
     let placeholder: SnippetPlaceholder
-    let partialData: Omit<SnippetPlaceholder, 'position' | 'codePosition'>
+    let partialData: Omit<SnippetPlaceholder, 'position' | 'codePosition' | 'id'>
     if (token instanceof VisualToken) {
       partialData = {
         valueType: 'variable',
@@ -153,23 +194,34 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
       }
     }
     if (partialData) {
-      const tokenNode = token.toTokenNode()
-      const defStartPosition = TextPosition.fromUnistPoint(def.position.start)
+      // const tokenNode = token.toTokenNode()
+      const markerNode = marker.toTokenNode()
+      const p = calcMarkerPositionInSnippet(def, marker)
       const codePosition = {
-        start: token.start.delta(defStartPosition),
-        end: token.end.delta(defStartPosition),
+        start: p.start.toUnistPosition(),
+        end: p.end.toUnistPosition(),
       }
       placeholder = {
         ...partialData,
+        id: i,
         position: {
           start: token.start.offset,
           end: token.end.offset,
         },
         codePosition,
         extra: {
-          token: tokenNode,
+          marker: markerNode,
         },
       }
+
+      markerIdMap.set(marker, placeholder.id)
+      if (marker.parent) {
+        const parentId = markerIdMap.get(marker.parent)
+        if (parentId) {
+          placeholder.parentId = parentId
+        }
+      }
+
       result.push(placeholder)
     }
   })

@@ -1,4 +1,4 @@
-import { OrNull } from '@unisnips/core'
+import { OrNull, TokenNode } from '@unisnips/core'
 import { TextPosition } from '../util/position'
 import { Token, tokenize, TabStopToken, VisualToken, ScriptCodeToken } from '../parse/tokenizer'
 
@@ -54,6 +54,7 @@ export class Marker {
     }
 
     if (parent) {
+      this.parent = parent
       parent.addChild(this)
     }
     this.init(opts)
@@ -61,6 +62,28 @@ export class Marker {
 
   addChild(child: Marker) {
     this.children.push(child)
+  }
+
+  /**
+   * will be serialized to TokenNode
+   */
+  get markerType() {
+    return 'Marker'
+  }
+
+  getTokenNodeData() {
+    return {}
+  }
+
+  toTokenNode(): TokenNode<any> {
+    return {
+      type: this.markerType,
+      position: {
+        start: this.start.toUnistPosition(),
+        end: this.end.toUnistPosition(),
+      },
+      data: this.getTokenNodeData(),
+    }
   }
 
   /** @abstract */
@@ -84,6 +107,10 @@ class NoneditableMarker extends Marker {}
 export class TabStop extends EditableMarker {
   number: number
 
+  get markerType() {
+    return 'TabStop'
+  }
+
   init(opts: MarkerInitOpts) {
     super.init(opts)
     const { token, parent } = opts
@@ -97,6 +124,10 @@ export class TabStop extends EditableMarker {
 export class SnippetInstance extends EditableMarker {
   visualContent: string
 
+  get markerType() {
+    return 'Snippet'
+  }
+
   init(opts: MarkerInitOpts) {
     super.init(opts)
 
@@ -107,6 +138,10 @@ export class SnippetInstance extends EditableMarker {
 
 export class Mirror extends Marker {
   protected tabStop: TabStop
+
+  get markerType() {
+    return 'Mirror'
+  }
 
   init(opts: MarkerInitOpts) {
     super.init(opts)
@@ -143,6 +178,10 @@ export class Visual extends EditableMarker {
     }
     // Transformation
   }
+
+  get markerType() {
+    return 'Visual'
+  }
 }
 
 export class ScriptCode extends NoneditableMarker {
@@ -160,5 +199,9 @@ export class ScriptCode extends NoneditableMarker {
       type = this.token.scriptType
     }
     return type
+  }
+
+  get markerType() {
+    return 'ScriptCode'
   }
 }
