@@ -1,8 +1,24 @@
 import { Node, Data, Position } from 'unist'
 
+/**
+ * A snippet's definition
+ */
+export interface SnippetDefinition {
+  trigger: string
+  description: string
+  body: string
+  /**
+   * position inside source file
+   */
+  position: Position
+  placeholders: SnippetPlaceholder[]
+  priority?: number
+  extra?: any
+}
+
 export interface SnippetPlaceholder {
   /**
-   * A uniqueId inside SnippetDefinition
+   * A unique id inside SnippetDefinition
    */
   id: number | string
   /** For nested tabstops */
@@ -29,7 +45,7 @@ export interface SnippetPlaceholder {
     scriptType: PlaceholderScriptType
     code: string
   }
-  /** position inside snippet body  */
+  /** offsets inside snippet body  */
   position: {
     start: number
     end: number
@@ -53,19 +69,6 @@ export interface PlaceholderReplacement {
   placeholder: SnippetPlaceholder
   type: 'string' | 'function'
   replaceContent?: string
-}
-
-export interface SnippetDefinition {
-  trigger: string
-  description: string
-  body: string
-  /**
-   * position inside source file
-   */
-  position: Position
-  placeholders: SnippetPlaceholder[]
-  priority?: number
-  extra?: any
 }
 
 export interface ParseOptions {
