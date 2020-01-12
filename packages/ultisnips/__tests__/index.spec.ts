@@ -70,22 +70,22 @@ describe('parse ultisnips', () => {
       const def = definitions.find(def => def.trigger === 'nested')
       expect(def.placeholders[0].codePosition).toMatchObject({
         end: {
-          column: 19,
-          line: 2,
+          column: 25,
+          line: 1,
         },
         start: {
-          column: 2,
-          line: 2,
+          column: 0,
+          line: 1,
         },
       })
       expect(def.placeholders[1].codePosition).toMatchObject({
         end: {
-          column: 18,
-          line: 2,
+          column: 24,
+          line: 1,
         },
         start: {
-          column: 6,
-          line: 2,
+          column: 14,
+          line: 1,
         },
       })
 

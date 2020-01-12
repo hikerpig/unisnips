@@ -137,8 +137,9 @@ function calcMarkerPositionInSnippet(def: SnippetDefinition, marker: Marker) {
   let lineOffset = 0
   while (curMarker) {
     lineOffset = Math.max(lineOffset, curMarker.start.line - defStartPosition.line)
-    if (curMarker.parent && curMarker.parent instanceof TabStop) {
-      colOffset += `\${${curMarker.parent.number.toString()}:`.length
+    const parent = curMarker.parent
+    if (parent && parent instanceof TabStop) {
+      colOffset += `\${${parent.number.toString()}:`.length + parent.initialText.indexOf('$')
     } else {
       colOffset += curMarker.start.column
     }

@@ -30,9 +30,7 @@ export const ULTI_SNIPPETS = {
   `,
   NESTED_TABSTOP: outdent`
   snippet nested "nested tabstop"
-  function main() {
-    \${0:\${1://inner}}
-  }
+  \${0:outer and \${1:inner}}
   endsnippet
   `,
 }
