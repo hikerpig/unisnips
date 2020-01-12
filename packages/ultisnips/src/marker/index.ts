@@ -72,6 +72,9 @@ export class Marker {
   }
 
   getTokenNodeData() {
+    if (this.token) {
+      return this.token.getTokenNodeData()
+    }
     return {}
   }
 
