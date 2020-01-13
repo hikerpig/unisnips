@@ -1,0 +1,7 @@
+snippet trans "transformation"
+${1/(\w+)(.*)/echo second:$1/}
+endsnippet
+
+snippet mirror_careful "should not generate inner mirror"
+${1/(\w+)([\w\d]+)\.(.*)/echo ext:$2/}
+endsnippet

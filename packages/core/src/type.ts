@@ -45,6 +45,11 @@ export interface SnippetPlaceholder {
     scriptType: PlaceholderScriptType
     code: string
   }
+
+  /**
+   * A transformation against the placeholder
+   */
+  transform?: PlaceholderTransform
   /** offsets inside snippet body  */
   position: {
     start: number
@@ -64,6 +69,12 @@ export const UNISNIPS_SPECIAL_HOLDER_NAMES = {
 }
 
 export type SpecialHolderName = keyof typeof UNISNIPS_SPECIAL_HOLDER_NAMES
+
+export type PlaceholderTransform = {
+  search: string
+  replace: string
+  options: string
+}
 
 export interface PlaceholderReplacement {
   placeholder: SnippetPlaceholder

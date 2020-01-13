@@ -33,4 +33,5 @@ export const ULTI_SNIPPETS = {
   \${0:outer and \${1:inner}}
   endsnippet
   `,
+  TRANSFORMATIONS: getUltisnipsSnippetContent('transformations.snippets'),
 }

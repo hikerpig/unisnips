@@ -61,6 +61,14 @@ should print date: `!js new Date()`
 endsnippet
 ```
 
+4. transformations
+
+```vim-snippet
+snippet tabstop_transformation "import vue component"
+import ${1/(.*)\/([\w]*)\.vue/$2/g} from '${1}'
+endsnippet
+```
+
 ### Supported targets
 
 - vscode, [Visual Studio Code](https://code.visualstudio.com/docs/editor/userdefinedsnippets)
@@ -90,4 +98,4 @@ unisnips convert --target vscode -i ~/.vim/Ultisnips/typescript.snippets -o ~/vs
 
 - [x] Add more builtin variables, may be useful in some targets (such as vscode's `$CURRENT_YEAR`)
 
-- [ ] Parses `transformers` and convert them to vscode
+- [x] Parses `transformations` and convert them to vscode

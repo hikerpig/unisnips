@@ -117,3 +117,24 @@ describe('parse ultisnips', () => {
     })
   })
 })
+
+describe('transformation', () => {
+  it('can extract transformation', () => {
+    const { definitions } = parse(ULTI_SNIPPETS.TRANSFORMATIONS)
+    const def = definitions.find(o => o.trigger === 'trans')
+    expect(def.placeholders[0].transform).toMatchObject({
+      replace: 'echo second:$1',
+      search: '(\\w+)(.*)',
+    })
+  })
+
+  it('will not mistake mirror inside transform format string', () => {
+    const { definitions } = parse(ULTI_SNIPPETS.TRANSFORMATIONS)
+    const def = definitions.find(o => o.trigger === 'mirror_careful')
+    expect(def.placeholders.length).toBe(1)
+    expect(def.placeholders[0].transform).toMatchObject({
+      replace: 'echo ext:$2',
+      search: '(\\w+)([\\w\\d]+)\\.(.*)',
+    })
+  })
+})

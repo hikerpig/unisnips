@@ -4,7 +4,7 @@ import { ULTI_SNIPPETS } from '../../../tools/test-tool/src/ultisnips'
 
 import { ultisnipsToVscode } from '../src/index'
 
-describe('ultisnipsToVscode', () => {
+describe('convert to vscode', () => {
   it("generate right 'VISUAL' placeholder", () => {
     const { content } = ultisnipsToVscode(ULTI_SNIPPETS.VISUAL)
     expect(content).toEqual(outdent`
@@ -33,5 +33,17 @@ describe('ultisnipsToVscode', () => {
       }
     }
     `)
+  })
+
+  it('will keep tabstop transformations', () => {
+    const { content } = ultisnipsToVscode(ULTI_SNIPPETS.TRANSFORMATIONS)
+    const snippetItem = JSON.parse(content)
+    expect(snippetItem).toMatchObject({
+      transformation: {
+        prefix: 'trans',
+        body: ['${1/(\\w+)(.*)/echo second:$1/}'],
+        description: 'transformation',
+      },
+    })
   })
 })

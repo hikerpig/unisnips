@@ -1,12 +1,22 @@
 import { OrNull, TokenNode } from '@unisnips/core'
 import { TextPosition } from '../util/position'
-import { Token, tokenize, TabStopToken, VisualToken, ScriptCodeToken } from '../parse/tokenizer'
+import { pick } from '../util/util'
+import {
+  TextIterator,
+  Token,
+  TabStopToken,
+  VisualToken,
+  ScriptCodeToken,
+  parseTillClosingBrace,
+  parseTillUnescapedChar,
+  StopIteration,
+} from '../parse/tokenizer'
 
 export type MarkerClass = new (opts: MarkerInitOpts) => Marker
 
-type MarkerInitOpts = {
+type MarkerInitOpts<T = Token> = {
   parent: Marker
-  token?: Token
+  token?: T
   start?: TextPosition
   end?: TextPosition
   tieBreaker?: TextPosition
@@ -16,7 +26,7 @@ type MarkerInitOpts = {
 /**
  * Represents any object in the text that has a span in any ways.
  */
-export class Marker {
+export class Marker<T extends Token = Token> {
   start: TextPosition
   end: TextPosition
   initialText: string
@@ -24,12 +34,12 @@ export class Marker {
   tabStops: { [key: number]: TabStop } = {}
 
   parent: OrNull<Marker>
-  token: OrNull<Token>
+  token: OrNull<T>
 
   protected children: Marker[] = []
   protected tieBreaker: TextPosition
 
-  constructor(opts: MarkerInitOpts) {
+  constructor(opts: MarkerInitOpts<T>) {
     const { parent, start, end, token, tieBreaker } = opts
     if (token) {
       // Initialize from token
@@ -99,7 +109,7 @@ export class Marker {
  * This base class represents any object in the text that can be changed by
  * the user.
  */
-class EditableMarker extends Marker {
+class EditableMarker<T = Token> extends Marker {
   get editableChildren() {
     return this.children.filter(child => child instanceof EditableMarker)
   }
@@ -107,24 +117,114 @@ class EditableMarker extends Marker {
 
 class NoneditableMarker extends Marker {}
 
-export class TabStop extends EditableMarker {
+export class Transform extends Marker {
+  protected regex: RegExp
+  protected replace: any
+  protected search: string
+  protected options: string
+
+  get markerType() {
+    return 'Transform'
+  }
+
+  getTokenNodeData() {
+    return pick(this as any, [
+      'search',
+      'replace',
+      'options',
+    ])
+  }
+
+  initTransformation(opts: { search: string; options: string; replace: string }) {
+    this.options = opts.options
+    this.search = opts.search
+
+    if (opts.options) {
+    }
+
+    this.regex = new RegExp(opts.search, opts.options)
+    // curently more clever replace like '\u' is not supported
+    this.replace = opts.replace
+  }
+
+  protected transformText(text: string) {
+    if (!this.regex) {
+      return text
+    }
+    text.replace(this.regex, this.replace)
+  }
+}
+
+export class TransformableMarker<T = Token> extends EditableMarker<T> {
+  transform?: Transform
+
+  search: string
+  replace: string
+  options: any = null
+
+  getTokenNodeData() {
+    const data: any = super.getTokenNodeData()
+    if (this.transform) {
+      data.transform = this.transform.getTokenNodeData()
+    }
+    return data
+  }
+
+  protected parseTransform(text: string) {
+    if (text[0] !== '/') return
+    // console.log('parse transform', text)
+    const iter = new TextIterator(text, new TextPosition(0, 0, 0))
+    iter.next()
+    try {
+      const search = parseTillUnescapedChar(iter, '/')[0]
+      const replace = parseTillUnescapedChar(iter, '/')[0]
+      const optionChars = []
+      if (iter.peek()) {
+        optionChars.push(iter.next())
+      }
+      const options = optionChars.join('')
+      if (search && replace) {
+        const transform = new Transform({
+          parent: this,
+        })
+        transform.initTransformation({ search, replace, options })
+        this.transform = transform
+      }
+    } catch (e) {
+      if (e instanceof StopIteration) {
+        return
+      }
+      throw e
+    }
+  }
+}
+
+export class TabStop<T = TabStopToken> extends TransformableMarker {
   number: number
 
   get markerType() {
     return 'TabStop'
   }
 
-  init(opts: MarkerInitOpts) {
+  init(opts: MarkerInitOpts<TabStopToken>) {
     super.init(opts)
     const { token, parent } = opts
-    if (token && token instanceof TabStopToken) {
+    if (token) {
       this.number = token.number
     }
     parent.tabStops[this.number] = this
+
+    if (this.initialText && !token.hasColon) {
+      this.parseTransform(this.initialText)
+      if (this.transform) {
+        this.initialText = ''
+      }
+    }
   }
 }
 
 export class SnippetInstance extends EditableMarker {
+  // maybe it needs a context?
   visualContent: string
 
   get markerType() {
@@ -156,10 +256,8 @@ export class Mirror extends Marker {
  * selected and insert it here.
  *
  * If there was no text visually selected, this will be the empty string.
- *
- * TODO: Transformation ?
  */
-export class Visual extends EditableMarker {
+export class Visual extends TransformableMarker {
   text: string
   /** QUESTION: may be related to vim's mode? */
   mode: string
@@ -179,6 +277,7 @@ export class Visual extends EditableMarker {
         this.mode = 'v'
       }
     }
+    // this.
     // Transformation
   }
 

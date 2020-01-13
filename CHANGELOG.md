@@ -1,7 +1,3 @@
-# [](https://github.com/hikerpig/unisnips/compare/v0.4.0...v) (2020-01-12)
-
-
-
 # [0.4.0](https://github.com/hikerpig/unisnips/compare/v0.4.0-alpha.1...v0.4.0) (2020-01-12)
 
 

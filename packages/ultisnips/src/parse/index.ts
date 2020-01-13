@@ -1,9 +1,9 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import omit from 'lodash.omit'
-import { SnippetDefinition, ParseOptions, SnippetPlaceholder } from '@unisnips/core'
+import { SnippetDefinition, ParseOptions, SnippetPlaceholder, PlaceholderTransform } from '@unisnips/core'
 import { VisualToken, MirrorToken, TabStopToken, ScriptCodeToken } from './tokenizer'
-import { Marker, TabStop, SnippetInstance } from '../marker'
+import { Marker, TabStop, SnippetInstance, TransformableMarker } from '../marker'
 import { parseUltiSnipsTokens, parseUltiSnips } from './ultisnips'
 import { TextPosition } from '../util/position'
 
@@ -185,6 +185,12 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
         index: token.number,
         description: token.initialText,
       }
+      if ('transform' in marker) {
+        if (marker.transform) {
+          partialData.transform = marker.transform.getTokenNodeData() as PlaceholderTransform
+          partialData.description = ''
+        }
+      }
     } else if (token instanceof ScriptCodeToken) {
       partialData = {
         valueType: 'script',
@@ -194,6 +200,10 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
         },
       }
     }
+    // else if (token instanceof TransformationToken) {
+    //   console.log('trans token', token)
+    // }
+
     if (partialData) {
       // const tokenNode = token.toTokenNode()
       const markerNode = marker.toTokenNode()

@@ -10,6 +10,7 @@ import {
   VisualToken,
   MirrorToken,
   ScriptCodeToken,
+  // TransformationToken,
 } from './tokenizer'
 import {
   Marker,
@@ -19,9 +20,11 @@ import {
   SnippetInstance,
   Visual,
   ScriptCode,
+  Transform,
+  TransformableMarker,
 } from '../marker'
 
-type ResultPair = { parent: Marker; token: Token; marker: Marker }
+type ResultPair = { parent: Marker; token: Token; marker: Marker | TransformableMarker }
 
 /**
  * Turns 'text' into a stream of tokens and creates the text objects from
@@ -52,7 +55,9 @@ export function tokenizeSnippetText(
         const ts = new TabStop({ parent, token })
         item.marker = ts
         seenTabstops[token.number] = ts
-        doParse(ts, token.initialText, allowedTokensInTabstops)
+        if (ts.initialText) {
+          doParse(ts, ts.initialText, allowedTokensInTabstops)
+        }
       } else if (tokenMarkerMap) {
         const ctor = tokenMarkerMap.get(token.constructor as any)
         if (ctor) {
@@ -84,6 +89,7 @@ TOKEN_MARKER_MAP.set(VisualToken, Visual)
 TOKEN_MARKER_MAP.set(MirrorToken, Mirror)
 TOKEN_MARKER_MAP.set(TabStopToken, TabStop)
 TOKEN_MARKER_MAP.set(ScriptCodeToken, ScriptCode)
+// TOKEN_MARKER_MAP.set(TransformationToken, Transform)
 
 function definitionToSnippetInstance(snip: SnippetDefinition) {
   const { position } = snip

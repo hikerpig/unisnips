@@ -6,16 +6,22 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { TextPosition } from '../util/position'
+import { pick } from '../util/util'
 import { ExtensibleError } from '@bestminr/control-flow'
 import { SnippetPlaceholder, TokenNode } from '@unisnips/core'
 
-class StopIteration extends ExtensibleError {}
+export class StopIteration extends ExtensibleError {}
 
-/** Helper class to make iterating over text easier. */
-class TextIterator {
+/**
+ * Helper class to make iterating over text easier.
+ * A simplified char stream
+ */
+export class TextIterator {
   protected text: string
   protected line: number
   protected col: number
+
+  protected textLineContents: string[]
 
   protected idx = 0
   /**
@@ -26,6 +32,7 @@ class TextIterator {
 
   constructor(text: string, startPosition: TextPosition) {
     this.text = text
+    this.textLineContents = text.split('\n')
     this.line = startPosition.line
     this.col = startPosition.column
     this.startPosition = startPosition
@@ -47,6 +54,15 @@ class TextIterator {
     return chars.join('')
   }
 
+  /** roll back the stream n characters, won't return chars */
+  rollback(n = 1) {
+    if (n === 1) return this.rollbackOne()
+
+    for (let i = 0; i < n; i++) {
+      this.rollbackOne()
+    }
+  }
+
   /** return the next character */
   protected nextOne() {
     if (this.idx > this.text.length) {
@@ -61,6 +77,19 @@ class TextIterator {
     }
     this.idx += 1
     return rv
+  }
+
+  protected rollbackOne() {
+    if (this.idx < 0) {
+      return
+    }
+    if (this.col <= 0) {
+      this.line -= 1
+      this.col = this.textLineContents[this.line].length - 1
+    } else {
+      this.col -= 1
+    }
+    this.idx -= 1
   }
 
   get position() {
@@ -83,7 +112,7 @@ function parseIndexNumber(iter: TextIterator) {
   return parseInt(rv)
 }
 
-function parseTillClosingBrace(iter: TextIterator) {
+export function parseTillClosingBrace(iter: TextIterator) {
   let braceDepth = 1
   const retChars = []
   while (true) {
@@ -108,7 +137,7 @@ function parseTillClosingBrace(iter: TextIterator) {
  *
  * Will also consume the closing char, but and return it as second return value
  */
-function parseTillUnescapedChar(iter: TextIterator, str: string) {
+export function parseTillUnescapedChar(iter: TextIterator, str: string) {
   const retChars = []
   let char
   while (true) {
@@ -136,6 +165,11 @@ type TokenStatics = {
   startsHere(iter: TextIterator, ...args: any[]): boolean
 }
 
+type TokenInitOpts = {
+  indent?: TextPosition
+  parent?: Token
+}
+
 /**
  * Represents a Token as parsed from a snippet definition.
  */
@@ -143,14 +177,19 @@ export abstract class Token {
   initialText = ''
   start: TextPosition
   end: TextPosition
+  parent?: Token
+
+  isTransformable = false
+  // transform?: TransformationToken
 
   static startsHere(iter: TextIterator, ...args: any[]) {
     return false
   }
 
-  constructor(iter: TextIterator, indent: TextPosition) {
+  constructor(iter: TextIterator, opts: TokenInitOpts = {}) {
+    this.parent = opts.parent
     this.start = iter.position
-    this.parse(iter, indent)
+    this.parse(iter, opts.indent)
     this.end = iter.position
   }
 
@@ -182,7 +221,10 @@ export abstract class Token {
 export class TabStopToken extends Token {
   static PATTERN = /^\$\{\d+[:}]?/
 
+  isTransformable = true
   number: number
+  /** if tabstop has ':', further marker construct will skip transformer */
+  hasColon: boolean
 
   static startsHere(iter: TextIterator) {
     return this.PATTERN.test(iter.peek(10))
@@ -203,6 +245,7 @@ export class TabStopToken extends Token {
     this.number = parseIndexNumber(iter)
 
     if (iter.peek() === ':') {
+      this.hasColon = true
       iter.next()
     }
     this.initialText = parseTillClosingBrace(iter)
@@ -213,6 +256,7 @@ export class VisualToken extends Token {
   // ${VISUAL}
   static PATTERN = /^\$\{VISUAL[:}\/]/
 
+  isTransformable = true
   alternativeText = ''
   search: string
   replace: string
@@ -253,6 +297,37 @@ export class VisualToken extends Token {
     }
   }
 }
+
+// export class TransformationToken extends Token {
+//   search: string
+//   replace: string
+//   options: any = null
+
+//   static startsHere(iter: TextIterator) {
+//     return iter.peek() === '/'
+//   }
+
+//   get tokenType() {
+//     return 'Transformation'
+//   }
+
+//   getTokenNodeData() {
+//     return pick(this, [
+//       'number',
+//       'search',
+//       'replace',
+//       'options',
+//     ] as Array<keyof this>);
+//   }
+
+//   protected parse(iter: TextIterator) {
+//     iter.next() // /
+
+//     this.search = parseTillUnescapedChar(iter, '/')[0]
+//     this.replace = parseTillUnescapedChar(iter, '/')[0]
+//     this.options = parseTillClosingBrace(iter)
+//   }
+// }
 
 export class MirrorToken extends Token {
   static PATTERN = /^\$\d+/
@@ -367,7 +442,7 @@ export class EndOfTextToken extends Token {
   }
 }
 
-export type TokenCtor = new (iter: TextIterator, indent: TextPosition) => Token
+export type TokenCtor = new (iter: TextIterator, opts: TokenInitOpts) => Token
 
 export type TokenClass = TokenCtor & TokenStatics
 
@@ -384,9 +459,13 @@ export function tokenize(
       let doneSomething = false
       for (const tokenCtor of allowedTokens) {
         if (tokenCtor.startsHere(iter, indent)) {
-          const token = new tokenCtor(iter, indent)
+          const token = new tokenCtor(iter, { indent })
           tokens.push(token)
           doneSomething = true
+
+          // if (token.isTransformable && token.transform) {
+          //   tokens.push(token.transform)
+          // }
           break
         }
       }
