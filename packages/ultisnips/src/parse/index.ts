@@ -1,7 +1,12 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import omit from 'lodash.omit'
-import { SnippetDefinition, ParseOptions, SnippetPlaceholder, PlaceholderTransform } from '@unisnips/core'
+import {
+  SnippetDefinition,
+  ParseOptions,
+  SnippetPlaceholder,
+  PlaceholderTransform,
+} from '@unisnips/core'
 import { VisualToken, MirrorToken, TabStopToken, ScriptCodeToken } from './tokenizer'
 import { Marker, TabStop, SnippetInstance, TransformableMarker } from '../marker'
 import { parseUltiSnipsTokens, parseUltiSnips } from './ultisnips'

@@ -26,9 +26,13 @@ function copyProperties(target: any, source: any, isProto = false) {
   }
 }
 
-type Ctor<T, S> = { new(...args: any[]): T } & S;
+type Ctor<T, S> = { new (...args: any[]): T } & S
 
-export function mix<T, TS, U, US, W, WS>(c1: Ctor<T, TS>, c2?: Ctor<U, US>, c3?: Ctor<W, WS>): Ctor<T & U & W, TS & US & WS>
+export function mix<T, TS, U, US, W, WS>(
+  c1: Ctor<T, TS>,
+  c2?: Ctor<U, US>,
+  c3?: Ctor<W, WS>,
+): Ctor<T & U & W, TS & US & WS>
 export function mix(...mixins: any[]) {
   const constructors: any[] = []
   class Mix {

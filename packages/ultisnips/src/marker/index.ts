@@ -128,11 +128,7 @@ export class Transform extends Marker {
   }
 
   getTokenNodeData() {
-    return pick(this as any, [
-      'search',
-      'replace',
-      'options',
-    ])
+    return pick(this as any, ['search', 'replace', 'options'])
   }
 
   initTransformation(opts: { search: string; options: string; replace: string }) {
