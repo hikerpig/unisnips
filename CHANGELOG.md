@@ -1,3 +1,12 @@
+# [0.5.0-alpha.0](https://github.com/hikerpig/unisnips/compare/v0.4.0...v0.5.0-alpha.0) (2020-01-15)
+
+
+### Features
+
+* Add transformations related parsing, can convert to vscode, related [#1](https://github.com/hikerpig/unisnips/issues/1) ([daee276](https://github.com/hikerpig/unisnips/commit/daee276b59bd4d5b62cd1bd401d42b7304091ebe))
+
+
+
 # [0.4.0](https://github.com/hikerpig/unisnips/compare/v0.4.0-alpha.1...v0.4.0) (2020-01-12)
 
 
