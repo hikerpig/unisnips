@@ -68,7 +68,7 @@ describe('parse ultisnips', () => {
     it('can parse nested tabstop', () => {
       const { definitions } = parse(ULTI_SNIPPETS.NESTED_TABSTOP)
       const def = definitions.find(def => def.trigger === 'nested')
-      expect(def.placeholders[0].codePosition).toMatchObject({
+      expect(def.placeholders[0].bodyPosition).toMatchObject({
         end: {
           column: 25,
           line: 1,
@@ -78,7 +78,7 @@ describe('parse ultisnips', () => {
           line: 1,
         },
       })
-      expect(def.placeholders[1].codePosition).toMatchObject({
+      expect(def.placeholders[1].bodyPosition).toMatchObject({
         end: {
           column: 24,
           line: 1,

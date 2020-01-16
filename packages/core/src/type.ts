@@ -23,6 +23,8 @@ export interface SnippetPlaceholder {
   id: number | string
   /** For nested tabstops */
   parentId?: number | string
+  /** A Unist 'Position', position inside snippet body  */
+  bodyPosition: Position
   /**
    * Indicates placeholder's value type, by default it should be 'positional'.
    * complicated valueType such as 'script' or 'variable', may be depended on specific interpretor and editor plugin
@@ -45,18 +47,10 @@ export interface SnippetPlaceholder {
     scriptType: PlaceholderScriptType
     code: string
   }
-
   /**
    * A transformation against the placeholder
    */
   transform?: PlaceholderTransform
-  /** offsets inside snippet body  */
-  position: {
-    start: number
-    end: number
-  }
-  /** A Unist 'Position', position inside snippet body  */
-  codePosition: Position
   extra?: any
 }
 

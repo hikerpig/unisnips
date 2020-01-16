@@ -156,7 +156,13 @@ function calcMarkerPositionInSnippet(def: SnippetDefinition, marker: Marker) {
   const start = defStartPosition.clone()
   start.column += colOffset
   start.line += lineOffset
+  if (marker.token) {
+    start.offset = marker.token.start.offset
+  }
   const end = new TextPosition(start.line, start.column + (marker.end.column - marker.start.column))
+  if (marker.token) {
+    end.offset = marker.token.end.offset
+  }
   return {
     start,
     end,
@@ -175,7 +181,7 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
     const { token, parent, marker } = pair
     // console.log('token', token)
     let placeholder: SnippetPlaceholder
-    let partialData: Omit<SnippetPlaceholder, 'position' | 'codePosition' | 'id'>
+    let partialData: Omit<SnippetPlaceholder, 'position' | 'bodyPosition' | 'id'>
     if (token instanceof VisualToken) {
       partialData = {
         valueType: 'variable',
@@ -213,18 +219,18 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
       // const tokenNode = token.toTokenNode()
       const markerNode = marker.toTokenNode()
       const p = calcMarkerPositionInSnippet(def, marker)
-      const codePosition = {
+      const bodyPosition = {
         start: p.start.toUnistPosition(),
         end: p.end.toUnistPosition(),
       }
       placeholder = {
         ...partialData,
         id: i,
-        position: {
-          start: token.start.offset,
-          end: token.end.offset,
-        },
-        codePosition,
+        // position: {
+        //   start: token.start.offset,
+        //   end: token.end.offset,
+        // },
+        bodyPosition,
         extra: {
           marker: markerNode,
         },
