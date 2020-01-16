@@ -1,6 +1,6 @@
 {
   "name": "@unisnips/sublime",
-  "version": "0.5.0",
+  "version": "0.5.1-alpha.0",
   "description": "Utilities for converting sublime text in unisnips project",
   "keywords": [
     "unisnips",
@@ -24,7 +24,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@unisnips/core": "^0.5.0"
+    "@unisnips/core": "^0.5.1-alpha.0"
   },
   "devDependencies": {
     "jest": "*",
