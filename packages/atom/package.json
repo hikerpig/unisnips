@@ -1,6 +1,6 @@
 {
   "name": "@unisnips/atom",
-  "version": "0.5.0-alpha.0",
+  "version": "0.5.0",
   "description": "Utilities for converting Atom in unisnips project",
   "keywords": [
     "unisnips"
@@ -23,7 +23,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@unisnips/core": "^0.5.0-alpha.0"
+    "@unisnips/core": "^0.5.0"
   },
   "devDependencies": {
     "@types/unist": "^2.0.3",
