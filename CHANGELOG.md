@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/hikerpig/unisnips/compare/v0.5.0-alpha.0...v0.5.0) (2020-01-16)
+
+
+### Features
+
+* remove `placeholder.position`; replace `codePosition` it with `bodyPosition` ([60ae58a](https://github.com/hikerpig/unisnips/commit/60ae58a14081de5e9b2a88ed2d05c7f6c9cc3d3b))
+
+
+
 # [0.5.0-alpha.0](https://github.com/hikerpig/unisnips/compare/v0.4.0...v0.5.0-alpha.0) (2020-01-15)
 
 
