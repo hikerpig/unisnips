@@ -79,6 +79,19 @@ export interface PlaceholderReplacement {
 export interface ParseOptions {
   snippetsFilePath?: string | void
   verbose?: boolean
+  /**
+   * A synchronous function which, will be called if the snippet has 'extends something' syntax,
+   * and returned value will be added to raw parsed definitions
+   */
+  onExtends?<T extends SnippetDefinition>(
+    info: {
+      extendedTypes: string[]
+      snippetsFilePath: string | void
+    },
+    helper: {
+      parseForDefinitions(content: string, opts?: ParseOptions): T[]
+    },
+  ): T[]
 }
 
 export interface ParseResult {

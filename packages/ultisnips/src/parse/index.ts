@@ -14,8 +14,8 @@ import {
   ScriptCodeToken,
   UniSnipsVariableToken,
 } from './tokenizer'
-import { Marker, TabStop, SnippetInstance, TransformableMarker } from '../marker'
-import { parseUltiSnipsTokens, parseUltiSnips } from './ultisnips'
+import { Marker, TabStop, SnippetInstance } from '../marker'
+import { parseUltiSnips } from './ultisnips'
 import { TextPosition } from '../util/position'
 
 interface UltiSnippet extends SnippetDefinition {
@@ -59,24 +59,46 @@ function parseSnippets(snippetCode: string, opts: ParseOptions): UltiSnippet[] {
 
       const extendsMatch = EXTENDS_PATTERN.exec(line)
       if (extendsMatch) {
-        if (snippetsFilePath) {
-          const typeExtended = extendsMatch[1]
-          const typeExtendedSnippetFile =
-            path.join(path.dirname(snippetsFilePath), typeExtended) + '.snippets'
+        const typeExtended = extendsMatch[1]
+        if (opts.onExtends) {
+          const extendedTypes = [typeExtended]
           try {
-            const content = fs.readFileSync(typeExtendedSnippetFile, 'utf-8')
-            const extraSnippets = parseSnippets(content, {
-              ...opts,
-              snippetsFilePath: typeExtendedSnippetFile,
-            })
-
-            list.push(...extraSnippets)
-          } catch (e) {
-            console.error(
-              `Unable to parse: ${typeExtendedSnippetFile} required via ${snippetsFilePath}:${index +
-                1} : ${line}`,
-              verbose ? e : '',
+            const extraSnippets = opts.onExtends<UltiSnippet>(
+              {
+                extendedTypes,
+                snippetsFilePath: opts.snippetsFilePath,
+              },
+              {
+                parseForDefinitions(innerContent, innerOpts = {}) {
+                  return parseSnippets(innerContent, innerOpts)
+                },
+              },
             )
+            list.push(...extraSnippets)
+          } catch (error) {
+            console.error(`Error in onExtends ${extendedTypes}`)
+            if (verbose) {
+              console.error(error)
+            }
+          }
+        } else {
+          if (snippetsFilePath) {
+            const typeExtendedSnippetFile = path.join(path.dirname(snippetsFilePath), typeExtended) + '.snippets'
+            try {
+              const content = fs.readFileSync(typeExtendedSnippetFile, 'utf-8')
+              const extraSnippets = parseSnippets(content, {
+                ...opts,
+                snippetsFilePath: typeExtendedSnippetFile,
+              })
+
+              list.push(...extraSnippets)
+            } catch (e) {
+              console.error(
+                `Unable to parse: ${typeExtendedSnippetFile} required via ${snippetsFilePath}:${index +
+                  1} : ${line}`,
+                verbose ? e : '',
+              )
+            }
           }
         }
 

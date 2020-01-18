@@ -3,6 +3,7 @@ import PLUGIN_ULTISNIPS from '../src/index'
 import { ULTI_SNIPPETS } from '../../../tools/test-tool/src/ultisnips'
 import { UNI_SNIPPETS } from '../../../tools/test-tool/src/unisnips'
 import { SnippetPlaceholder, SnippetDefinition } from '@unisnips/core'
+import { outdent } from 'outdent'
 
 const { parse } = PLUGIN_ULTISNIPS
 
@@ -151,6 +152,26 @@ describe('parse unisnips builtin variables', () => {
     expect(def.placeholders[1].variable).toMatchObject<PartialPlaceholder['variable']>({
       type: 'builtin',
       name: 'UNI_SELECTED_TEXT',
+    })
+  })
+})
+
+describe('ParseOptions.onExtends', () => {
+  it(`should be called if provided, and snippet has "extends" syntax`, () => {
+    const { definitions } = parse(
+      outdent`
+      extends javascript
+      `,
+      {
+        onExtends({ extendedTypes }, hepler) {
+          expect(extendedTypes).toEqual(['javascript'])
+          return hepler.parseForDefinitions(ULTI_SNIPPETS.SIMPLE, {})
+        },
+      },
+    )
+    const def = definitions[0]
+    expect(def).toMatchObject({
+      trigger: 'subsec',
     })
   })
 })
