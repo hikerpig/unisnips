@@ -74,6 +74,7 @@ endsnippet
 - vscode, [Visual Studio Code](https://code.visualstudio.com/docs/editor/userdefinedsnippets)
 - atom, [Atom](https://flight-manual.atom.io/using-atom/sections/snippets/)
 - sublime , [Sublime Text](http://www.sublimetext.info/docs/en/extensibility/snippets.html)
+- jetbrains , [JetBrains live template](https://www.jetbrains.com/help/idea/using-live-templates.html)
 
 ## Usage
 
