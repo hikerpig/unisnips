@@ -1,3 +1,20 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [0.6.0-alpha.0](https://github.com/hikerpig/unisnips/compare/v0.5.1-alpha.0...v0.6.0-alpha.0) (2020-01-25)
+
+
+### Features
+
+* [jetbrains] :sparkles: Add generator for jetbrain's live template ([7da6bf9](https://github.com/hikerpig/unisnips/commit/7da6bf9c9ae7c672e57bc94ecba3f9d86d55c5e3))
+* [ultisnips] Add `ParseOptions.onExtends` to enable custimizable snippet manangement ([cd27032](https://github.com/hikerpig/unisnips/commit/cd27032f9367f253836aa82dc8e4ca4fa639845a))
+
+
+
+
+
 # [0.5.0](https://github.com/hikerpig/unisnips/compare/v0.5.0-alpha.0...v0.5.0) (2020-01-16)
 
 
@@ -64,6 +81,3 @@
 * multi command cli, 'unisnips convert' ([603e694](https://github.com/hikerpig/unisnips/commit/603e6947928bb6b56c4d4d71b9cdef0942891ae2))
 * port a subset of ultisnips lexer/parser ([c55e7c0](https://github.com/hikerpig/unisnips/commit/c55e7c006725a2b90deda5b7b4884464178d3c6a))
 * Redefine interchange data types, to support more complicated UltiSnips functionality ([57ef061](https://github.com/hikerpig/unisnips/commit/57ef0615e99cd3fecc5fc58baf63717fd71ab325))
-
-
-

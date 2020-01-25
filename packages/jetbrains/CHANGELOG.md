@@ -5,12 +5,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [0.6.0-alpha.0](https://github.com/hikerpig/unisnips/compare/v0.5.1-alpha.0...v0.6.0-alpha.0) (2020-01-25)
 
-**Note:** Version bump only for package @unisnips/vscode
 
+### Features
 
-
-
-
-# [0.2.0-alpha.1](https://github.com/hikerpig/unisnips/compare/@unisnips/vscode@0.2.0-alpha.0...@unisnips/vscode@0.2.0-alpha.1) (2020-01-05)
-
-**Note:** Version bump only for package @unisnips/vscode
+* [jetbrains] :sparkles: Add generator for jetbrain's live template ([7da6bf9](https://github.com/hikerpig/unisnips/commit/7da6bf9c9ae7c672e57bc94ecba3f9d86d55c5e3))
