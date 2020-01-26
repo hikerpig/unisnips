@@ -76,6 +76,26 @@ endsnippet
 - sublime , [Sublime Text](http://www.sublimetext.info/docs/en/extensibility/snippets.html)
 - jetbrains , [JetBrains live template](https://www.jetbrains.com/help/idea/using-live-templates.html)
 
+### Supported conversion features
+
+| Features \ Targets     | vscode                                         | atom   | sublime   | jetbrains   |
+| ---------------------- | --------                                       | ------ | --------- | ----------- |
+| Tabstop                | ✅                                             | ✅     | ✅        | ✅          |
+| 'VISUAL' placeholder   | ✅                                             | ❌     | ❌        | ✅          |
+| Script code block      | ❌                                             | ❌     | ❌        | ❌          |
+| Transformations        | [🅿️  Partial support](#partial-transformations) | ❌     | ❌        | ❌          |
+
+
+#### Partial support explations
+
+#### partial-transformations
+
+A transformation can be describe as `/pattern/replacement/options` .
+
+You can reference matched groups by '$1' '$2' in replacement string, but [Special Replacement String](https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt#L1256) like `\u` `\l` is not yet supported.
+
+And the differences between languages' regular expression will result in different behaviors.
+
 ## Usage
 
 ### Node cli
