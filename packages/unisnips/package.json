@@ -1,6 +1,6 @@
 {
   "name": "@unisnips/unisnips",
-  "version": "0.6.0-alpha.0",
+  "version": "0.6.0",
   "description": "cli of unisnips project, convert ultisnips snippet to vscode/atom and other targets",
   "keywords": [
     "unisnips",
@@ -27,7 +27,7 @@
   "dependencies": {
     "@unisnips/atom": "^0.6.0-alpha.0",
     "@unisnips/core": "^0.6.0-alpha.0",
-    "@unisnips/jetbrains": "^0.6.0-alpha.0",
+    "@unisnips/jetbrains": "^0.6.0",
     "@unisnips/sublime": "^0.6.0-alpha.0",
     "@unisnips/ultisnips": "^0.6.0-alpha.0",
     "@unisnips/vscode": "^0.6.0-alpha.0",
