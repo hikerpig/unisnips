@@ -11,7 +11,7 @@ function makeReplacements(placeholders: SnippetPlaceholder[]): PlaceholderReplac
   const replacements: PlaceholderReplacement[] = []
   let maxIndex = 0
   placeholders.forEach(placeholder => {
-    if (placeholder.valueType === 'positional') {
+    if (placeholder.valueType === 'tabstop') {
       maxIndex = Math.max(maxIndex, placeholder.index)
     }
   })
@@ -19,7 +19,7 @@ function makeReplacements(placeholders: SnippetPlaceholder[]): PlaceholderReplac
   placeholders.forEach(placeholder => {
     const { valueType, description, index } = placeholder
     let newDesc: string
-    if (valueType === 'positional') {
+    if (valueType === 'tabstop') {
       newDesc = `$\{${index}${description ? `:${description}` : ''}\}`
     } else if (valueType === 'variable') {
       console.warn('[atom] variable is not supported')

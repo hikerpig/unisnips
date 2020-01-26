@@ -24,7 +24,7 @@ function makeReplacements(placeholders: SnippetPlaceholder[]): PlaceholderReplac
   placeholders.forEach(placeholder => {
     const { valueType, variable, description, index } = placeholder
     let newDesc: string
-    if (valueType === 'positional') {
+    if (valueType === 'tabstop') {
       if (placeholder.transform) {
         const transform = placeholder.transform
         const transformStr = ['', transform.search, transform.replace, transform.options].join('/')

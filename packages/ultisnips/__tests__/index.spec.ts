@@ -26,12 +26,12 @@ describe('parse ultisnips', () => {
       const { definitions } = parse(ULTI_SNIPPETS.VARIABLE_SIMPLE)
       const definition = definitions[0]
       expect(definition.placeholders[0]).toMatchObject<PartialPlaceholder>({
-        valueType: 'positional',
+        valueType: 'tabstop',
         index: 1,
         description: 'argument',
       })
       expect(definition.placeholders[1]).toMatchObject<PartialPlaceholder>({
-        valueType: 'positional',
+        valueType: 'tabstop',
         index: 2,
         description: '',
       })
@@ -55,7 +55,7 @@ describe('parse ultisnips', () => {
       const definition = definitions[0]
       // console.log('', definition.placeholders)
       expect(definition.placeholders[0]).toMatchObject<Partial<SnippetPlaceholder>>({
-        valueType: 'positional',
+        valueType: 'tabstop',
         index: 0,
       })
       expect(definition.placeholders[1]).toMatchObject<Partial<SnippetPlaceholder>>({

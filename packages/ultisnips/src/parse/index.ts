@@ -220,7 +220,7 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
       }
     } else if (token instanceof MirrorToken || token instanceof TabStopToken) {
       partialData = {
-        valueType: 'positional',
+        valueType: 'tabstop',
         index: token.number,
         description: token.initialText,
       }

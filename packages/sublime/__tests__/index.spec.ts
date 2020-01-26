@@ -35,7 +35,7 @@ describe('sublime generation tests', () => {
     `)
   })
 
-  it('variable will be downgraded to positional placeholder', () => {
+  it('variable will be downgraded to tabstop placeholder', () => {
     const content = convertToSublime(ULTI_SNIPPETS.VISUAL_AND_POSITION).content
     expect(content).toEqual(outdent`
     <snippet>

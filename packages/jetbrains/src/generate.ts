@@ -28,7 +28,7 @@ function detectVariableReplacements(placeholders: SnippetPlaceholder[]): Replace
     const { valueType, variable, description, index } = placeholder
     let newDesc: string
     let jbVariable: JetBrainsVariable
-    if (valueType === 'positional') {
+    if (valueType === 'tabstop') {
       if (placeholder.transform) {
         console.warn('[jetbrains] placeholder transform is not supported')
       } else {

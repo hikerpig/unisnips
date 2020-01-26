@@ -20,7 +20,7 @@ describe('convert to vscode', () => {
     `)
   })
 
-  it("combined 'VISUAL' and positional placeholder", () => {
+  it("combined 'VISUAL' and tabstop placeholder", () => {
     const { content } = ultisnipsToVscode(ULTI_SNIPPETS.VISUAL_AND_POSITION)
     expect(content).toEqual(outdent`
     {

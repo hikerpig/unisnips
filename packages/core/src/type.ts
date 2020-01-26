@@ -26,16 +26,16 @@ export interface SnippetPlaceholder {
   /** A Unist 'Position', position inside snippet body  */
   bodyPosition: Position
   /**
-   * Indicates placeholder's value type, by default it should be 'positional'.
+   * Indicates placeholder's value type, by default it should be 'tabstop'.
    * complicated valueType such as 'script' or 'variable', may be depended on specific interpretor and editor plugin
-   * - positional: can be easily translated, such as vscode's `$1`, will need
+   * - tabstop: can be easily translated, such as vscode's `$1`, will need
    * - variable: represented a built-in variable,
    * - : represented a built-in variable,
    */
   valueType: PlaceholderValueType
-  /** When valueType is 'positional', indicates placeholder's relative position */
+  /** When valueType is 'tabstop', indicates placeholder's relative position */
   index?: number
-  /** When valueType is 'positional', this is also default value */
+  /** When valueType is 'tabstop', this is also default value */
   description?: string
   /** When valueType is 'variable' */
   variable?: {
@@ -54,7 +54,7 @@ export interface SnippetPlaceholder {
   extra?: any
 }
 
-type PlaceholderValueType = 'positional' | 'variable' | 'script'
+type PlaceholderValueType = 'tabstop' | 'variable' | 'script'
 
 type PlaceholderScriptType = 'python' | 'shell' | 'vim' | 'js'
 

@@ -22,7 +22,7 @@ See the [demo site](https://unisnips.netlify.com/?result=debug)'s DEBUG panel.
 
 #### UltiSnips
 
-1. Positional placeholder (aka 'TabStop' in UltiSnips)
+1. TabStop
 
 ```vim-snippet
 snippet subsec "most common and simple"

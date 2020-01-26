@@ -33,7 +33,7 @@ describe('convert to atom', () => {
     `)
   })
 
-  it('variable will be downgraded to positional placeholder', () => {
+  it('variable will be downgraded to tabstop placeholder', () => {
     const content = getValuableContent(convertToAtom(ULTI_SNIPPETS.VISUAL_AND_POSITION))
     expect(content).toEqual(outdent`
     'vue class component @Prop':
