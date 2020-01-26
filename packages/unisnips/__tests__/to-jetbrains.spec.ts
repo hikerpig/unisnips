@@ -20,8 +20,8 @@ describe('convert to jetbrains live template', () => {
     // console.log(content)
     expect(content).toEqual(outdent`
     <templateSet group="unisnips">
-      <template name="subsec" description="seperator" value="---------------- $1$ ----------------------&#10;----------------end $1$ -------------------">
-        <variable name="1" defaultValue="" alwaysStopAt="true" />
+      <template name="subsec" description="seperator" value="---------------- $TS_1$ ----------------------&#10;----------------end $TS_1$ -------------------">
+        <variable name="TS_1" defaultValue="" alwaysStopAt="true" />
         <context >
           <option name="OTHER" value="true" />
         </context>
@@ -33,8 +33,8 @@ describe('convert to jetbrains live template', () => {
     const { content } = convertToJetBrains(ULTI_SNIPPETS.VISUAL_AND_POSITION)
     expect(content).toEqual(outdent`
     <templateSet group="unisnips">
-      <template name="vccprop" description="vue class component @Prop" value="@Prop() $SELECTION$: $2$">
-        <variable name="2" defaultValue="type" alwaysStopAt="true" />
+      <template name="vccprop" description="vue class component @Prop" value="@Prop() $SELECTION$: $TS_2$">
+        <variable name="TS_2" defaultValue="type" alwaysStopAt="true" />
         <context >
           <option name="OTHER" value="true" />
         </context>

@@ -32,9 +32,10 @@ function detectVariableReplacements(placeholders: SnippetPlaceholder[]): Replace
       if (placeholder.transform) {
         console.warn('[jetbrains] placeholder transform is not supported')
       } else {
-        newDesc = `$${index}$`
+        const vName = `TS_${index}`
+        newDesc = `$${vName}$`
         jbVariable = {
-          name: index.toString(),
+          name: vName,
           defaultValue: (description || '').toString(),
           alwaysStopAt: true,
         }
