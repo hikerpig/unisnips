@@ -32,5 +32,8 @@
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@unisnips/core": "^0.6.0"
   }
 }
