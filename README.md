@@ -80,10 +80,11 @@ endsnippet
 
 | Features \ Targets     | vscode                                         | atom   | sublime   | jetbrains   |
 | ---------------------- | --------                                       | ------ | --------- | ----------- |
-| Tabstop                | ✅                                             | ✅     | ✅        | ✅          |
+| Simple Tabstop         | ✅                                             | ✅     | ✅        | ✅          |
+| Nested Tabstop         | ✅                                             | ❌     | ❌        | ❌          |
 | 'VISUAL' placeholder   | ✅                                             | ❌     | ❌        | ✅          |
-| Script code block      | ❌                                             | ❌     | ❌        | ❌          |
 | Transformations        | [🅿️  Partial support](#partial-transformations) | ❌     | ❌        | ❌          |
+| Script code block      | ❌                                             | ❌     | ❌        | ❌          |
 
 
 #### Partial support explations
