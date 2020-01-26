@@ -8,35 +8,48 @@ import {
   applyReplacements,
 } from '@unisnips/core'
 
-type ResultPair = {
+import { makeTag, attr, nodeTreeToXml, indent } from './util/xml'
+
+type ReplacementResultPair = {
   variable: JetBrainsVariable
   replacement: PlaceholderReplacement
 }
 
-function detectVariableReplacements(placeholders: SnippetPlaceholder[]): ResultPair[] {
-  const resultPairs: ResultPair[] = []
+/**
+ * Map UniSnips variables to jetbrains builtin variable
+ */
+const UNI_BUILTIN_VARIABLE_JB_MAP: { [key: string]: string } = {
+  UNI_SELECTED_TEXT: '$SELECTION$',
+}
+
+function detectVariableReplacements(placeholders: SnippetPlaceholder[]): ReplacementResultPair[] {
+  const resultPairs: ReplacementResultPair[] = []
   placeholders.forEach(placeholder => {
     const { valueType, variable, description, index } = placeholder
     let newDesc: string
     let jbVariable: JetBrainsVariable
     if (valueType === 'positional') {
-      // TODO: transform ?
       if (placeholder.transform) {
-        const transform = placeholder.transform
-        const transformStr = ['', transform.search, transform.replace, transform.options].join('/')
-        newDesc = `$\{${index}${transformStr}\}`
+        console.warn('[jetbrains] placeholder transform is not supported')
       } else {
         newDesc = `$${index}$`
         jbVariable = {
           name: index.toString(),
-          defaultValue: index.toString(),
+          defaultValue: (description || '').toString(),
           alwaysStopAt: true,
         }
       }
     } else if (valueType === 'variable') {
-      // if (variable.type === 'builtin') {
-      //   newDesc = variable.name
-      // }
+      if (variable.type === 'builtin') {
+        const matchedName = UNI_BUILTIN_VARIABLE_JB_MAP[variable.name]
+        if (matchedName) {
+          newDesc = matchedName
+          jbVariable = {
+            name: matchedName,
+            defaultValue: '',
+          }
+        }
+      }
     } else if (valueType === 'script') {
       console.warn('[jetbrains] script placeholder is not supported')
     }
@@ -70,57 +83,6 @@ type JetBrainsSnippetItem = {
   contexts?: string[]
 }
 
-type XMLAttribute = {
-  name: string
-  value: string | boolean | number
-}
-
-type XMLNode = {
-  tagName: string
-  attributes: XMLAttribute[]
-  children?: XMLNode[]
-}
-
-function indent(str: string, cols: number) {
-  let prefix = ''
-  for (let i = 0; i < cols; i++) {
-    prefix += ' '
-  }
-  return str
-    .split('\n')
-    .map(l => {
-      return prefix + l
-    })
-    .join('\n')
-}
-
-function nodeTreeToXml(root: XMLNode, level = 0): string {
-  const attrStr = root.attributes
-    .filter(attr => attr.value !== undefined)
-    .map(attr => {
-      return `${attr.name}="${attr.value.toString()}"`
-    })
-    .join(' ')
-  const childrenStr = root.children
-    ? root.children
-        .map(child => {
-          return nodeTreeToXml(child, 1)
-        })
-        .join('\n')
-    : ''
-
-  if (childrenStr) {
-    return indent(
-      `<${root.tagName} ${attrStr}>
-${childrenStr}
-</${root.tagName}>`,
-      level * 2,
-    )
-  } else {
-    return indent(`<${root.tagName} ${attrStr} />`, level * 2)
-  }
-}
-
 const JB_LANG_MAP: { [key: string]: string } = {
   other: 'OTHER',
   sh: 'SHELL_SCRIPT',
@@ -134,23 +96,12 @@ const JB_LANG_MAP: { [key: string]: string } = {
   sql: 'SQL',
 }
 
-function attr(name: string, value: string | boolean) {
-  return { name, value }
-}
-
-function makeTag(name: string, attrs: XMLAttribute[], children?: XMLNode[]): XMLNode {
-  return {
-    tagName: name,
-    attributes: attrs,
-    children,
-  }
-}
-
 /* eslint-disable prettier/prettier */
 function snippetItemToXml(item: JetBrainsSnippetItem) {
   const uniqueVariableMap: {[key: string]: JetBrainsVariable} = {}
   if (item.variables) {
     item.variables.forEach((variable) => {
+      if (variable.name === UNI_BUILTIN_VARIABLE_JB_MAP.UNI_SELECTED_TEXT) return
       const k = [variable.name, variable.defaultValue, variable.expression].join('_')
       if (!uniqueVariableMap[k]) {
         uniqueVariableMap[k] = variable
