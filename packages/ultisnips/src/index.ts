@@ -1,4 +1,4 @@
-import { UnisnipsParser } from '@unisnips/core'
+import { UnisnipsParser, SnippetDefinition } from '@unisnips/core'
 
 import { parse } from './parse'
 
@@ -9,3 +9,32 @@ const PLUGIN_ULTISNIPS: UnisnipsParser = {
 }
 
 export default PLUGIN_ULTISNIPS
+
+/**
+ * If there are multiple snippet with the same trigger,
+ * keep only those with highest priority
+ *
+ * @see https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt#L569
+ */
+export function stripSnippetsByPriority(defs: SnippetDefinition[]) {
+  const groupsByTrigger = defs.reduce((out: { [key: string]: SnippetDefinition[] }, def) => {
+    if (!out[def.trigger]) {
+      out[def.trigger] = []
+    }
+    out[def.trigger].push(def)
+    return out
+  }, {})
+
+  const resultSnippets = []
+  for (const defs of Object.values(groupsByTrigger)) {
+    let newList = defs
+    if (defs.length > 1) {
+      const highestPriority = defs.reduce((out, def) => {
+        return Math.max(out, def.priority)
+      }, defs[0].priority)
+      newList = defs.filter(def => def.priority === highestPriority)
+    }
+    resultSnippets.push(...newList)
+  }
+  return resultSnippets
+}

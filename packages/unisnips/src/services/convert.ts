@@ -6,7 +6,7 @@ import {
   UnisnipsParser,
 } from '@unisnips/core'
 
-import PLUGIN_ULTISNIPS from '@unisnips/ultisnips'
+import PLUGIN_ULTISNIPS, { stripSnippetsByPriority } from '@unisnips/ultisnips'
 
 import PLUGIN_VSCODE from '@unisnips/vscode'
 import PLUGIN_ATOM from '@unisnips/atom'
@@ -108,5 +108,9 @@ export function convert(opts: UnisnipsConvertOptions) {
     ...opts,
     parser: PLUGIN_ULTISNIPS,
   })
-  return generator.generateSnippets(parseResult.definitions)
+  let definitions = parseResult.definitions
+  if (source === UNISNIPS_SUPPORTED_SOURCES.ultisnips) {
+    definitions = stripSnippetsByPriority(parseResult.definitions)
+  }
+  return generator.generateSnippets(definitions, opts)
 }
