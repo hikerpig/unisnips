@@ -1,6 +1,6 @@
 {
   "name": "@unisnips/vscode",
-  "version": "0.6.0-alpha.0",
+  "version": "0.7.0-alpha.0",
   "description": "Utilities for converting vscode snippets in unisnips project",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@types/lodash.omit": "*",
-    "@unisnips/core": "^0.6.0-alpha.0",
+    "@unisnips/core": "^0.7.0-alpha.0",
     "lodash.omit": "^4.5.0"
   },
   "devDependencies": {
