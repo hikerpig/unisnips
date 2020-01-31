@@ -1,7 +1,26 @@
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [0.7.0-alpha.0](https://github.com/hikerpig/unisnips/compare/v0.6.0...v0.7.0-alpha.0) (2020-01-31)
+
+### Bug Fixes
+
+* [jetbrains] add missing dep ([a019ae7](https://github.com/hikerpig/unisnips/commit/a019ae71957a2eb419435c9c07eaff0426f394e9))
+
+
+### Features
+
+* replace valueType 'positional' with 'tabstop' ([9489fa0](https://github.com/hikerpig/unisnips/commit/9489fa0f70b2de0f0b98284baffb142f675c67f8))
+* Strip redundant ultisnips snippets by priority [#10](https://github.com/hikerpig/unisnips/issues/10) ([901f732](https://github.com/hikerpig/unisnips/commit/901f7320e4405b332d9318c53e7cc08136da807a))
+
+
+### BREAKING CHANGES
+
+valueType 'positional' -> 'tabstop'
+
 
 # [0.6.0-alpha.0](https://github.com/hikerpig/unisnips/compare/v0.5.1-alpha.0...v0.6.0-alpha.0) (2020-01-25)
 
