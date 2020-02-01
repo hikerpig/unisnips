@@ -1,11 +1,14 @@
-import { UnisnipsParser, SnippetDefinition } from '@unisnips/core'
+import { UnisnipsParser, SnippetDefinition, UnisnipsPlugin } from '@unisnips/core'
 
 import { parse } from './parse'
 
 export * from './util/position'
 
-const PLUGIN_ULTISNIPS: UnisnipsParser = {
+const PLUGIN_ULTISNIPS: UnisnipsParser & UnisnipsPlugin = {
   parse,
+  install(pluginManager) {
+    pluginManager.registerParser('ultisnips', PLUGIN_ULTISNIPS)
+  },
 }
 
 export default PLUGIN_ULTISNIPS

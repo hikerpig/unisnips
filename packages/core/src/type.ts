@@ -110,3 +110,19 @@ export interface TokenNode<D extends Data> extends Node {
   data: D
   parent?: TokenNode<any>
 }
+
+// ---------------- About sync ----------------------
+export interface SyncProviderOptions {
+  definitions: SnippetDefinition[]
+  snippetsFilePath?: string | void
+}
+
+export type SyncEntry = {
+  filename: string
+  content: string
+}
+
+export interface SyncInfo {
+  entries: SyncEntry[]
+}
+// ----------------end About sync -------------------

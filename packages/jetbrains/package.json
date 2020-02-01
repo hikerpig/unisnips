@@ -25,6 +25,9 @@
     "dev": "tsc --watch",
     "test": "jest"
   },
+  "dependencies": {
+    "@unisnips/core": "^0.7.0-alpha.0"
+  },
   "devDependencies": {
     "jest": "*",
     "typescript": "~3.7.2"
@@ -32,8 +35,5 @@
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@unisnips/core": "^0.6.0"
   }
 }

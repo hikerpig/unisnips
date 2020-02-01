@@ -1,8 +1,7 @@
 import outdent from 'outdent'
 
-import PLUGIN_SUBLIME from '../src'
+import { generateSnippets } from '../src'
 
-import { GenerateResult } from '@unisnips/core'
 import PLUGIN_ULTISNIPS from '@unisnips/ultisnips/src/index'
 
 import { ULTI_SNIPPETS } from '../../../tools/test-tool/src/ultisnips'
@@ -10,7 +9,7 @@ import { ULTI_SNIPPETS } from '../../../tools/test-tool/src/ultisnips'
 describe('sublime generation tests', () => {
   const convertToSublime = (inputContent: string) => {
     const { definitions } = PLUGIN_ULTISNIPS.parse(inputContent)
-    return PLUGIN_SUBLIME.generateSnippets(definitions)
+    return generateSnippets(definitions)
   }
 
   it('generate right placeholder', () => {

@@ -17,6 +17,7 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 1,
+    '@typescript-eslint/interface-name-prefix': 0,
     '@typescript-eslint/indent': 0,
     '@typescript-eslint/member-ordering': [
       1,

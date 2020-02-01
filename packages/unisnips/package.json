@@ -31,10 +31,12 @@
     "@unisnips/sublime": "^0.7.0-alpha.0",
     "@unisnips/ultisnips": "^0.7.0-alpha.0",
     "@unisnips/vscode": "^0.7.0-alpha.0",
+    "mkdirp": "^1.0.3",
     "signale": "^1.4.0",
     "yargs": "^15.0.2"
   },
   "devDependencies": {
+    "@types/mkdirp": "^0.5.2",
     "@types/signale": "^1.2.1",
     "jest": "*",
     "typescript": "~3.7.2"

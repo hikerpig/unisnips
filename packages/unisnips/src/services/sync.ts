@@ -1,12 +1,6 @@
-import {
-  UnisnipsGenerator,
-  ParseOptions,
-  ParseResult,
-  SnippetDefinition,
-  UnisnipsParser,
-} from '@unisnips/core'
+import { ParseOptions } from '@unisnips/core'
 
-import PLUGIN_ULTISNIPS, { stripSnippetsByPriority } from '@unisnips/ultisnips'
+import { stripSnippetsByPriority } from '@unisnips/ultisnips'
 
 import { UNISNIPS_SUPPORTED_SOURCES, UNISNIPS_SUPPORTED_TARGETS } from '../const'
 import { pluginManager } from '../plugin-manager'
@@ -21,17 +15,17 @@ interface UnisnipsConvertOptions extends ParseOptions {
   target?: string
 }
 
-export function convert(opts: UnisnipsConvertOptions) {
+export function sync(opts: UnisnipsConvertOptions) {
   const source = opts.source || UNISNIPS_SUPPORTED_SOURCES.ultisnips
   const target = opts.target || UNISNIPS_SUPPORTED_TARGETS.vscode
   const parser = pluginManager.getParser(source)
-  const generator = pluginManager.getGenerator(target)
+  const provider = pluginManager.getSyncProvider(target)
   if (!parser) {
     console.error(`Source '${source}' parsing not supported`)
     return
   }
-  if (!generator) {
-    console.error(`Target '${generator}' parsing not supported`)
+  if (!provider) {
+    console.error(`Target '${target}' sync not supported`)
     return
   }
 
@@ -43,5 +37,7 @@ export function convert(opts: UnisnipsConvertOptions) {
   if (source === UNISNIPS_SUPPORTED_SOURCES.ultisnips) {
     definitions = stripSnippetsByPriority(parseResult.definitions)
   }
-  return generator.generateSnippets(definitions, opts)
+  const syncInfo = provider.getSyncInfo({ definitions })
+  // console.log('syncInfo', syncInfo)
+  return syncInfo
 }

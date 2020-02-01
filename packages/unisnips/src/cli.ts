@@ -3,6 +3,7 @@ import path from 'path'
 import yargs from 'yargs'
 
 import CONVERT_MODULE from './commands/convert'
+import SYNC_MODULE from './commands/sync'
 
 let version: string
 try {
@@ -17,6 +18,7 @@ const argv = yargs
   .version(version)
   .demandCommand()
   .command(CONVERT_MODULE)
+  .command(SYNC_MODULE)
   .alias('h', 'help')
   // .usage('🖖 unisnips')
   .usage('unisnips <command> [options]')

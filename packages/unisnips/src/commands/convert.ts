@@ -3,6 +3,7 @@ import path from 'path'
 import signale from 'signale'
 
 import yargs, { CommandModule } from 'yargs'
+import { getCliOptionsByDefault } from '../common/util'
 import { convert } from '../services/convert'
 
 const cwd = process.cwd()
@@ -37,15 +38,7 @@ const CONVERT_MODULE: CommandModule<any> = {
     },
   },
   handler(argv) {
-    const options = { ...DEFAULT_OPTIONS }
-
-    Object.keys(DEFAULT_OPTIONS).forEach((k: any) => {
-      if (k in options) {
-        if (argv[k] !== undefined) {
-          ;(options as any)[k] = argv[k] as any
-        }
-      }
-    })
+    const options = getCliOptionsByDefault(argv, DEFAULT_OPTIONS)
 
     // console.log('options', options)
     if (!options.input) {

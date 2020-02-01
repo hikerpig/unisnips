@@ -1,8 +1,18 @@
 import outdent from 'outdent'
 
+import { ParseOptions } from '@unisnips/core'
+
+import { convert } from '../src/index'
+
 import { ULTI_SNIPPETS } from '../../../tools/test-tool/src/ultisnips'
 
-import { ultisnipsToVscode } from '../src/index'
+export function ultisnipsToVscode(str: string, opts: ParseOptions = {}) {
+  return convert({
+    source: 'ultisnips',
+    target: 'vscode',
+    inputContent: str,
+  })
+}
 
 describe('convert to vscode', () => {
   it("generate right 'VISUAL' placeholder", () => {
