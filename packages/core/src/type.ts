@@ -7,6 +7,8 @@ export interface SnippetDefinition {
   trigger: string
   description: string
   body: string
+  /** aka 'options' in ultisnips */
+  flags: string
   /**
    * position inside source file
    */

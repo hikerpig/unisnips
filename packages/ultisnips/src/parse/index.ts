@@ -20,8 +20,6 @@ import { TextPosition } from '../util/position'
 
 interface UltiSnippet extends SnippetDefinition {
   code: Array<string>
-  /** aka 'options' */
-  flags: string
 }
 
 enum ReadState {

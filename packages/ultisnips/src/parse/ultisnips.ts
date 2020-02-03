@@ -22,7 +22,6 @@ import {
   SnippetInstance,
   Visual,
   ScriptCode,
-  Transform,
   TransformableMarker,
   UniSnipsVariable,
 } from '../marker'
