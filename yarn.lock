@@ -1370,10 +1370,28 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@unisnips/jetbrains@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@unisnips/jetbrains/-/jetbrains-0.6.0.tgz#f6a666b9380f70c7c0c61d38c5d2dfc91ae07369"
-  integrity sha512-lOB6B1xpaiIbL44PRsGBQMm20poT0CXrKubh3FHIoWCQ2flAoViE3i91zpO25LqSaCn7+1BB3DbRndaeUvDHgw==
+"@unisnips/core@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@unisnips/core/-/core-0.7.0.tgz#720f13c1a529797e4bb4ea6ba3302896ff1aeaa2"
+  integrity sha512-/qHtYOYQpA8WSNrI1N6EYfern7pJ6VBKAuO4mkAIO7hVVEz70clA8X3ziUFn9y/Hos8MHZiIF9Qte1bzt0yMBw==
+  dependencies:
+    "@types/unist" "^2.0.3"
+
+"@unisnips/jetbrains@^0.7.0-alpha.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@unisnips/jetbrains/-/jetbrains-0.7.0.tgz#6d595d4cfc17f8ac491e65a7bed6922e71b6a419"
+  integrity sha512-2X/hFN4PlGa5K0DaBMkIB9c73zwaPtc1LhXwFs9By6/kile8Go70eu84Ug0eyW2TZhGtULPFJBomohxZWLu9Pw==
+  dependencies:
+    "@unisnips/core" "^0.7.0"
+
+"@unisnips/vscode@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@unisnips/vscode/-/vscode-0.7.0.tgz#35bc358b271c6aa1ce384721f6d2ee0b556f85e4"
+  integrity sha512-qVHz/iZIYcFHcUBY0WEBcuAeI8eQTbZrTgQwlJP0f2U0EqIvhtRmbPNdEX9DX8GQne4HkctPZEWYiVGkHartBw==
+  dependencies:
+    "@types/lodash.omit" "*"
+    "@unisnips/core" "^0.7.0"
+    lodash.omit "^4.5.0"
 
 "@zkochan/cmd-shim@^3.1.0":
   version "3.1.0"
