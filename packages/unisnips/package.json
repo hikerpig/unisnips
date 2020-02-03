@@ -25,7 +25,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@unisnips/atom": "^0.7.0-alpha.0",
+    "@unisnips/atom": "^0.7.0",
     "@unisnips/core": "^0.7.0-alpha.0",
     "@unisnips/jetbrains": "^0.7.0-alpha.0",
     "@unisnips/sublime": "^0.7.0-alpha.0",
