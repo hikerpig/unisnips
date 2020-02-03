@@ -29,7 +29,7 @@
     "@unisnips/core": "^0.7.0-alpha.0",
     "@unisnips/jetbrains": "^0.7.0-alpha.0",
     "@unisnips/sublime": "^0.7.0-alpha.0",
-    "@unisnips/ultisnips": "^0.7.0-alpha.0",
+    "@unisnips/ultisnips": "^0.7.0",
     "@unisnips/vscode": "^0.7.0-alpha.0",
     "signale": "^1.4.0",
     "yargs": "^15.0.2"
