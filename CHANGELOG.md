@@ -1,8 +1,17 @@
-
 # Change Log
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [0.7.0](https://github.com/hikerpig/unisnips/compare/v0.7.0-alpha.0...v0.7.0) (2020-02-03)
+
+
+### Features
+
+* :sparkles: Implement 'sync' command ([#11](https://github.com/hikerpig/unisnips/issues/11)) ([8a59fee](https://github.com/hikerpig/unisnips/commit/8a59fee544ab722550ae25cbf3fcd017721a439d))
+* Add 'flags' field to SnippetDefinition ([feae407](https://github.com/hikerpig/unisnips/commit/feae407fdf39253cdd41b24c29f8a07eab6050bd))
+
+
 
 # [0.7.0-alpha.0](https://github.com/hikerpig/unisnips/compare/v0.6.0...v0.7.0-alpha.0) (2020-01-31)
 
