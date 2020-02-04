@@ -446,16 +446,16 @@ export class ScriptCodeToken extends Token {
     iter.next() // `
     const nextChars = iter.peek(5)
     let scriptType: ScriptType
-    if (nextChars.substr(0, 2) === '! ') {
+    if (this.containsWord(nextChars, '!')) {
       scriptType = 'shell'
       iter.next(2)
-    } else if (nextChars.substr(0, 3) === '!p ') {
+    } else if (this.containsWord(nextChars, '!p')) {
       scriptType = 'python'
       iter.next(3)
-    } else if (nextChars.substr(0, 3) === '!v ') {
+    } else if (this.containsWord(nextChars, '!v')) {
       scriptType = 'vim'
       iter.next(3)
-    } else if (nextChars.substr(0, 4) === '!js ') {
+    } else if (this.containsWord(nextChars, '!js')) {
       scriptType = 'js'
       iter.next(4)
     }
@@ -464,6 +464,12 @@ export class ScriptCodeToken extends Token {
       const [content] = parseTillUnescapedChar(iter, '`')
       this.scriptCode = content
     }
+  }
+
+  protected containsWord(chars: string, word: string, validSeperator = [' ', '\n']) {
+    const charsToCheck = chars.substr(0, word.length + 1)
+    const lastChar = charsToCheck[charsToCheck.length - 1]
+    return charsToCheck.startsWith(word) && validSeperator.includes(lastChar)
   }
 }
 

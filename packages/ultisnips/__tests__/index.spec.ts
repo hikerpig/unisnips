@@ -116,6 +116,14 @@ describe('parse ultisnips', () => {
           code: 'date',
         },
       })
+
+      const defNewLine = definitions.find(def => def.trigger === 'test_newline')
+      expect(defNewLine.placeholders[0]).toMatchObject<PartialPlaceholder>({
+        scriptInfo: {
+          scriptType: 'js',
+          code: 'new Date()',
+        },
+      })
     })
   })
 })
