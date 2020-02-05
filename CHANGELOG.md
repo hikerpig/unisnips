@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/hikerpig/unisnips/compare/v0.7.0...v0.7.1) (2020-02-05)
+
+
+### Bug Fixes
+
+* [ultisnips] script type detection should be correct in line's end ([a8f6e6b](https://github.com/hikerpig/unisnips/commit/a8f6e6b4767eed6736e52e7cd0d1121ce4aa67e4))
+
+
+
+
+
 # [0.7.0](https://github.com/hikerpig/unisnips/compare/v0.7.0-alpha.0...v0.7.0) (2020-02-03)
 
 
