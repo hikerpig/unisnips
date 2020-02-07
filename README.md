@@ -2,7 +2,7 @@ Unisips
 ===
 
 ![test](https://img.shields.io/github/workflow/status/hikerpig/unisnips/Test?label=test)
-[![codecov](https://codecov.io/gh/hikerpig/unisnips/branch/master/graph/badge.svg)](https://codecov.io/gh/hikerpig/unisnips) [![Greenkeeper badge](https://badges.greenkeeper.io/hikerpig/unisnips.svg)](https://greenkeeper.io/)
+[![codecov](https://codecov.io/gh/hikerpig/unisnips/branch/master/graph/badge.svg)](https://codecov.io/gh/hikerpig/unisnips)
 
 Unisnips is a set of tools to parse and generate expandable snippets, aiming to be the bridge between different editor/plugin/code-expand-apps. It parses snippet sources (so far only a subset of [UltiSnips](https://github.com/SirVer/ultisnips) is supported) and converts them to different targets.
 
