@@ -73,21 +73,21 @@ describe('parse ultisnips', () => {
       expect(def.placeholders[0].bodyPosition).toMatchObject({
         end: {
           column: 25,
-          line: 1,
+          line: 0,
         },
         start: {
           column: 0,
-          line: 1,
+          line: 0,
         },
       })
       expect(def.placeholders[1].bodyPosition).toMatchObject({
         end: {
           column: 24,
-          line: 1,
+          line: 0,
         },
         start: {
           column: 14,
-          line: 1,
+          line: 0,
         },
       })
 
@@ -122,6 +122,10 @@ describe('parse ultisnips', () => {
         scriptInfo: {
           scriptType: 'js',
           code: 'new Date()',
+        },
+        bodyPosition: {
+          start: { line: 0, column: 12, offset: 12 },
+          end: { line: 1, column: 11, offset: 28 },
         },
       })
     })
