@@ -15,6 +15,22 @@ export class TextPosition implements TextPosition {
     return new TextPosition(point.line, point.column, point.offset)
   }
 
+  /**
+   * A function that compares positions, useful for sorting
+   */
+  public static compare(a: TextPosition, b: TextPosition): number {
+    const aLineNumber = a.line | 0
+    const bLineNumber = b.line | 0
+
+    if (aLineNumber === bLineNumber) {
+      const aColumn = a.column | 0
+      const bColumn = b.column | 0
+      return aColumn - bColumn
+    }
+
+    return aLineNumber - bLineNumber
+  }
+
   constructor(line: number, col: number, offset?: number) {
     this.line = line
     this.column = col
@@ -47,11 +63,40 @@ export class TextPosition implements TextPosition {
     return new TextPosition(this.line - pos.line, this.column)
   }
 
+  /**
+   * Create a new position that, moved 'delta' from us.
+   * Slightly different than `add` method
+   */
+  moveWith(delta: TextPosition) {
+    const newLine = this.line + delta.line
+    let newCol = this.column
+    if (delta.line === 0) {
+      newCol = this.column + delta.column
+    } else {
+      newCol = delta.column
+    }
+    return new TextPosition(newLine, newCol)
+  }
+
   add(pos: TextPosition) {
     return new TextPosition(this.line + pos.line, this.column + pos.column)
   }
 
   substract(pos: TextPosition) {
     return new TextPosition(this.line - pos.line, this.column - pos.column)
+  }
+
+  /**
+   * Create a new position from this position.
+   *
+   * @param newLineNumber new line number
+   * @param newColumn new column
+   */
+  with(newLineNumber: number = this.line, newColumn: number = this.column): TextPosition {
+    if (newLineNumber === this.line && newColumn === this.column) {
+      return this
+    } else {
+      return new TextPosition(newLineNumber, newColumn)
+    }
   }
 }
