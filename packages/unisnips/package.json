@@ -1,6 +1,6 @@
 {
   "name": "@unisnips/unisnips",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "cli of unisnips project, convert ultisnips snippet to vscode/atom and other targets",
   "keywords": [
     "unisnips",
@@ -29,7 +29,7 @@
     "@unisnips/core": "^0.7.1",
     "@unisnips/jetbrains": "^0.7.1",
     "@unisnips/sublime": "^0.7.1",
-    "@unisnips/ultisnips": "^0.7.2",
+    "@unisnips/ultisnips": "^0.7.3",
     "@unisnips/vscode": "^0.7.1",
     "mkdirp": "^1.0.3",
     "signale": "^1.4.0",

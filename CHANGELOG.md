@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.3](https://github.com/hikerpig/unisnips/compare/v0.7.2...v0.7.3) (2020-02-09)
+
+
+### Bug Fixes
+
+* [ultisnips] script block wrong 'bodyPosition.offset' ([af4aaf7](https://github.com/hikerpig/unisnips/commit/af4aaf725a59ad671f6653fc0c381cedc7466ead))
+
+
+
+
+
 ## [0.7.2](https://github.com/hikerpig/unisnips/compare/v0.7.1...v0.7.2) (2020-02-07)
 
 
