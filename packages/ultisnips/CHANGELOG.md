@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/hikerpig/unisnips/compare/v0.7.3...v0.8.0) (2020-02-09)
+
+
+### Features
+
+* [ultisnips] Adjust `newStart` calculation during parsing nested tabstop, keep original position in snippet text ([bcebb06](https://github.com/hikerpig/unisnips/commit/bcebb065c6ba52b4c2f552dc618a5753f1e1063e))
+
+
+
+
+
 ## [0.7.3](https://github.com/hikerpig/unisnips/compare/v0.7.2...v0.7.3) (2020-02-09)
 
 
