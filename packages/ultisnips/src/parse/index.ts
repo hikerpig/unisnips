@@ -166,25 +166,28 @@ function calcMarkerPositionInSnippet(def: SnippetDefinition, marker: Marker) {
   let curMarker = markerPath.shift()
   let colOffset = 0
   let lineOffset = 0
+  let offsetToSnipInstance = 0
   while (curMarker) {
-    lineOffset = Math.max(lineOffset, (curMarker.start.line - 1) - defStartPosition.line)
+    lineOffset = Math.max(lineOffset, curMarker.start.line - 1 - defStartPosition.line)
     const parent = curMarker.parent
     if (parent && parent instanceof TabStop) {
-      colOffset += `\${${parent.number.toString()}:`.length + parent.initialText.indexOf('$')
+      const localOffset = `\${${parent.number.toString()}:`.length + parent.initialText.indexOf('$')
+      colOffset += localOffset
+      offsetToSnipInstance += localOffset
     } else {
       colOffset += curMarker.start.column
+      offsetToSnipInstance += curMarker.start.offset
     }
+
     // console.log('curMarker, start', JSON.stringify(curMarker.start), 'end', JSON.stringify(curMarker.end))
     curMarker = markerPath.shift()
   }
 
-  // console.log('marker path', markerPath.length, 'colDiff', colDiff)
+  // console.log('marker path', markerPath.length, 'colOffset', colOffset)
   const start = defStartPosition.clone()
   start.column += colOffset
   start.line = lineOffset
-  if (marker.token) {
-    start.offset = marker.token.start.offset
-  }
+  start.offset = offsetToSnipInstance
   const end = new TextPosition(
     marker.end.line - defStartPosition.line - 1,
     start.column + (marker.end.column - marker.start.column),
@@ -254,8 +257,8 @@ function detectPlaceholders(def: SnippetDefinition): SnippetPlaceholder[] {
     // }
 
     if (partialData) {
-      // const tokenNode = token.toTokenNode()
       const markerNode = marker.toTokenNode()
+      // console.log('marker', marker.markerType)
       const p = calcMarkerPositionInSnippet(def, marker)
       const bodyPosition = {
         start: p.start.toUnistPosition(),

@@ -57,12 +57,36 @@ describe('parse ultisnips', () => {
       expect(definition.placeholders[0]).toMatchObject<Partial<SnippetPlaceholder>>({
         valueType: 'tabstop',
         index: 0,
+        bodyPosition: {
+          start: {
+            line: 1,
+            column: 2,
+            offset: 20,
+          },
+          end: {
+            line: 1,
+            column: 16,
+            offset: 34,
+          },
+        },
       })
       expect(definition.placeholders[1]).toMatchObject<Partial<SnippetPlaceholder>>({
         valueType: 'variable',
         variable: {
           type: 'builtin',
           name: 'UNI_SELECTED_TEXT',
+        },
+        bodyPosition: {
+          start: {
+            line: 1,
+            column: 6,
+            offset: 24,
+          },
+          end: {
+            line: 1,
+            column: 15,
+            offset: 29,
+          },
         },
       })
     })
@@ -126,6 +150,45 @@ describe('parse ultisnips', () => {
         bodyPosition: {
           start: { line: 0, column: 12, offset: 12 },
           end: { line: 1, column: 11, offset: 28 },
+        },
+      })
+    })
+
+    it('should extract correct bodyPosition when script is inside tabstop', () => {
+      const { definitions } = parse(outdent`
+      snippet script_inside_tabstop "js script inside tabstop"
+      \${1:\`!js new Date()\`}
+      endsnippet
+      `)
+      const defScripInside = definitions.find(def => def.trigger === 'script_inside_tabstop')
+      expect(defScripInside.placeholders[0]).toMatchObject({
+        valueType: 'tabstop',
+        bodyPosition: {
+          start: {
+            line: 0,
+            column: 0,
+            offset: 0,
+          },
+          end: {
+            line: 0,
+            column: 21,
+            offset: 21,
+          },
+        },
+      })
+      expect(defScripInside.placeholders[1]).toMatchObject({
+        valueType: 'script',
+        bodyPosition: {
+          start: {
+            line: 0,
+            column: 3,
+            offset: 3,
+          },
+          end: {
+            line: 0,
+            column: 19,
+            offset: 16,
+          },
         },
       })
     })
