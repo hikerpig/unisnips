@@ -49,7 +49,14 @@ export function tokenizeSnippetText(
   const seenTabstops: any = {}
 
   const doParse = (parent: Marker, innerText: string, allowedTokens: TokenClass[]) => {
-    const tokens = tokenize(innerText, indent, parent.start, allowedTokens)
+    // newStart is different with UltiSnips,
+    // coz we are focusing on parsing rather than editing,
+    // so we tend to keep track of original position,
+    // but UltiSnips treat `text_object.start` as the position in interpreted text during editing
+    const newStart = parent.start.add(new TextPosition(0, parent.innerContentOffset))
+    newStart.offset = (parent.start.offset || 0) + parent.innerContentOffset
+
+    const tokens = tokenize(innerText, indent, newStart, allowedTokens)
     for (const token of tokens) {
       const item: ResultPair = { parent, token, marker: null }
       pairs.push(item)

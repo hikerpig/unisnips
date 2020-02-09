@@ -36,6 +36,12 @@ export class Marker<T extends Token = Token> {
   parent: OrNull<Marker>
   token: OrNull<T>
 
+  /**
+   * useful in nested tabstops,
+   * e.g. '${11:good}', innerContentOffset should be '${12:'.length
+   */
+  innerContentOffset = 0
+
   protected children: Marker[] = []
   protected tieBreaker: TextPosition
 
@@ -208,6 +214,7 @@ export class TabStop<T = TabStopToken> extends TransformableMarker {
     if (token) {
       this.number = token.number
     }
+    this.innerContentOffset = `\${${this.number.toString()}:`.length
     parent.tabStops[this.number] = this
 
     if (this.initialText && !token.hasColon) {

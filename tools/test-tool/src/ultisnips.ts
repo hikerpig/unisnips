@@ -24,7 +24,7 @@ export const ULTI_SNIPPETS = {
   VISUAL_INSIDE_PLACEHOLDER: outdent`
   snippet main "fun main"
   function main() {
-    \${0:\${VISUAL}}
+  \${0:\${VISUAL}}
   }
   endsnippet
   `,

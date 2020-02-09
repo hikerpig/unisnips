@@ -3,6 +3,10 @@ import { Point } from 'unist'
 export interface TextPosition {
   line: number
   column: number
+  /**
+   * after some certain operation, offset may not be correctly calculated,
+   * so it would be 'undefined'
+   */
   offset?: number
 }
 
@@ -58,7 +62,8 @@ export class TextPosition implements TextPosition {
    */
   delta(pos: TextPosition) {
     if (this.line === pos.line) {
-      return new TextPosition(0, this.column - pos.column)
+      const colDiff = this.column - pos.column
+      return new TextPosition(0, colDiff, colDiff)
     }
     return new TextPosition(this.line - pos.line, this.column)
   }

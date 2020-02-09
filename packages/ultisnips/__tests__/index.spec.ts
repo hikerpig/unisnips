@@ -60,13 +60,13 @@ describe('parse ultisnips', () => {
         bodyPosition: {
           start: {
             line: 1,
-            column: 2,
-            offset: 20,
+            column: 0,
+            offset: 18,
           },
           end: {
             line: 1,
-            column: 16,
-            offset: 34,
+            column: 14,
+            offset: 32,
           },
         },
       })
@@ -79,13 +79,13 @@ describe('parse ultisnips', () => {
         bodyPosition: {
           start: {
             line: 1,
-            column: 6,
-            offset: 24,
+            column: 4,
+            offset: 22,
           },
           end: {
             line: 1,
-            column: 15,
-            offset: 29,
+            column: 13,
+            offset: 31,
           },
         },
       })
@@ -181,13 +181,13 @@ describe('parse ultisnips', () => {
         bodyPosition: {
           start: {
             line: 0,
-            column: 3,
-            offset: 3,
+            column: 4,
+            offset: 4,
           },
           end: {
             line: 0,
-            column: 19,
-            offset: 16,
+            column: 20,
+            offset: 20,
           },
         },
       })
